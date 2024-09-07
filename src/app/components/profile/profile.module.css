@@ -1,0 +1,117 @@
+/* ----- Profile ----- */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fadeInRight {
+  animation: fadeInRight .5s ease-in-out forwards;
+}
+
+.profile {
+  /* using padding here so when scrolling there is no white space on top/bottom */
+  padding: 1rem;
+  margin: 0 0 0 1rem;
+  flex: 1;
+  overflow: auto;
+}
+
+.profile h2 {
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
+.profile h4 {
+  margin: 1rem 0 0.5rem 0;
+  color: #0047AB;
+}
+
+.profileSpinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* ----- Profile Header ----- */
+.profileHeader {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.pfp {
+  height: 150px;
+  width: 150px;
+  border-radius: 120px;
+  border: 4px solid #0047AB;
+}
+
+.profileHeaderText {
+  flex: 1;
+  align-content: center;
+  padding: 1rem;
+}
+
+.profileHeaderText p {
+  margin: 0;
+}
+
+/* ----- Education + Experience ----- */
+.eduExpTitle {
+  font-weight: bold;
+}
+
+.eduExpContainer {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  /* padding because margin would include the border */
+  padding-left: 1rem;
+  border-left: 1px solid #333;
+}
+
+.eduExpContainer p {
+  margin: 0;
+}
+
+/* ----- Splash Page ----- */
+.splashPage {
+  height: 100%;
+  width: 100%;
+  /* Center content */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/*  ----- stats ----- */
+.statsTable {
+  margin: 1rem 0;
+  table-layout: auto;
+  border-radius: 10px;
+  border-collapse: separate;
+  overflow: hidden;
+  padding: .5rem;
+}
+
+.statsTable, .statsTableCell {
+  border: 1px solid #000;
+}
+
+.statsBarContainerCell {
+  padding: 2px;
+  width: 200px;
+}
+
+.horizontalBar {
+  height: 1.5rem;
+  border: 1px solid;
+  flex: 1;
+}

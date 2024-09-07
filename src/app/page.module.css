@@ -1,0 +1,13 @@
+.webAddressBook {
+  width: 100%;
+  height: calc(100vh - 3rem);
+  display: flex;
+}
+
+.profile {
+  /* using padding here so when scrolling there is no white space on top/bottom */
+  padding: 1rem 0 1rem 0;
+  margin: 0 0 0 1rem;
+  flex: 1;
+  overflow: auto;
+}
