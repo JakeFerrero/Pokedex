@@ -1,31 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import ErrorTriangle from '@/app/components/utils/ErrorTriangle';
+import { determineStatColor, TYPE_COLOR_MAP } from '@/app/types/Colors';
 import { Pokemon } from '@/app/types/Pokemon';
+import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
 import avatar from '../../../../public/avatar.png';
 import LoadingSpinner from '../utils/LoadingSpinner';
+import TypePill from '../utils/TypePill';
 import style from './profile.module.css';
 import SplashPage from './SplashPage';
-
-const TYPE_COLOR_MAP: Record<string, string> = {
-  normal: '#A8A77A',
-  fire: '#EE8130',
-  water: '#6390F0',
-  electric: '#F7D02C',
-  grass: '#7AC74C',
-  ice: '#96D9D6',
-  fighting: '#C22E28',
-  poison: '#A33EA1',
-  ground: '#E2BF65',
-  flying: '#A98FF3',
-  psychic: '#F95587',
-  bug: '#A6B91A',
-  rock: '#B6A136',
-  ghost: '#735797',
-  dragon: '#6F35FC',
-  dark: '#705746',
-  steel: '#B7B7CE',
-  fairy: '#D685AD'
-};
 
 interface Props {
   pokemon: Pokemon | undefined;
@@ -33,36 +15,28 @@ interface Props {
   error: boolean;
 }
 
-function determineStatColor(statName: string, responsibility: string = 'bar'): string {
-  switch (statName) {
-    case 'hp':
-      if (responsibility === 'border') return '#438F0C';
-      if (responsibility === 'bg') return '#9EE864';
-      return '#69DC12';
-    case 'attack':
-      if (responsibility === 'border') return '#9A8510';
-      if (responsibility === 'bg') return '#F5DE69';
-      return '#EFCC18';
-    case 'defense':
-      if (responsibility === 'border') return '#97410C';
-      if (responsibility === 'bg') return '#F09A65';
-      return '#E86412';
-    case 'special-attack':
-      if (responsibility === 'border') return '#0D7F9D';
-      if (responsibility === 'bg') return '#66D8F6';
-      return '#13C3F1';
-    case 'special-defense':
-      if (responsibility === 'border') return '#304591';
-      if (responsibility === 'bg') return '#899EEA';
-      return '#4A6ADF';
-    default:
-      if (responsibility === 'border') return '#8B1470';
-      if (responsibility === 'bg') return '#E46CCA';
-      return '#D51DAD';
-  }
+function sanitizeAbilityName(abilityName: string) {
+  const sanitizedNames: string[] = [];
+  sanitizedNames.push(
+    abilityName
+      .split('-')
+      .map((s) => capitalizeFirstLetterOfString(s))
+      .join(' ')
+  );
+  return sanitizedNames;
+}
+
+function sanitizeStatName(name: string): string {
+  if (name === 'hp') return 'HP';
+  if (name === 'special-attack') return 'Sp. Atk';
+  if (name === 'special-defense') return 'Sp. Def';
+  return capitalizeFirstLetterOfString(name);
 }
 
 export default function Profile({ pokemon, loading, error }: Props) {
+  let typeColor: string | undefined;
+  if (pokemon) typeColor = TYPE_COLOR_MAP[pokemon.types[0]];
+
   return error ? (
     <ErrorTriangle size="large" message="Failed to fetch Pokemon's details" />
   ) : (
@@ -88,47 +62,83 @@ export default function Profile({ pokemon, loading, error }: Props) {
               alt={pokemon.name}
               className={style.pfp}
               onError={(e) => (e.currentTarget.src = avatar.src)}
+              style={{
+                border: `4px solid ${typeColor}`
+              }}
             />
             <div className={style.profileHeaderText}>
-              <h2>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
-              <p>{pokemon.flavorText}</p>
+              <h2>{capitalizeFirstLetterOfString(pokemon.name)}</h2>
+              {pokemon.types.map((type, index) => (
+                <TypePill key={`type-${index + 1}`} type={type} />
+              ))}
+              <p>
+                <i>{pokemon.flavorText}</i>
+              </p>
             </div>
           </div>
 
           {/* Profile Body */}
           <div>
             <h4>Details</h4>
-            <hr />
-            Abilities:
-            {pokemon.abilities.map((ability) => (
-              <>{ability}, </>
-            ))}
-            Egg Groups:
-            {pokemon.eggGroups.map((eg) => (
-              <>{eg}, </>
-            ))}
-            Type: 
-            {pokemon.types.map((type) => (
-              <span className="badge badge-pill" style={{
-                backgroundColor: TYPE_COLOR_MAP[type]
-              }}>{type}</span>
-            ))}
-            Evolves From:
-            {pokemon.evolvesFrom ? <>{pokemon.evolvesFrom}</> : undefined}
-            
+            <hr className={style.profileHr} />
+            <div>
+              <b>{`Species: `}</b>
+              {pokemon.genus}
+            </div>
+            <div>
+              <b>Height:</b> {pokemon.height} m
+            </div>
+            <div>
+              <b>Weight:</b> {pokemon.weight} kg
+            </div>
+            {pokemon.evolvesFrom ? (
+              <div>
+                <b>{`Evolves From: `}</b>
+                {capitalizeFirstLetterOfString(pokemon.evolvesFrom)}
+              </div>
+            ) : undefined}
+            <div>
+              <b>{`Abilities: `}</b>
+              {pokemon.abilities.map((ability, index) => {
+                return (
+                  <span key={`ability-${index}`}>
+                    <>{sanitizeAbilityName(ability)}</>
+                    {index === pokemon.abilities.length - 1 ? '' : ', '}
+                  </span>
+                );
+              })}
+            </div>
+            <div>
+              <b>{`Egg Group(s): `}</b>
+              {pokemon.eggGroups.map((egg, index) => {
+                return (
+                  <span key={`egg-group-${index}`}>
+                    <>{egg}</>
+                    {index === pokemon.eggGroups.length - 1 ? '' : ', '}
+                  </span>
+                );
+              })}
+            </div>
+
             <h4>Stats</h4>
-            <hr/>
-            <table className={style.statsTable} style={{
-              backgroundColor: TYPE_COLOR_MAP[pokemon.types[0]]
-            }}>
+            <hr className={style.profileHr} />
+            <table
+              className={style.statsTable}
+              style={{
+                backgroundColor: typeColor
+              }}
+            >
               {Object.entries(pokemon.stats).map(([statName, statValue]) => (
                 <tr
+                  key={statName}
                   style={{
                     backgroundColor: determineStatColor(statName, 'bg')
                   }}
                 >
                   <td className={style.statsTableCell}>
-                    {statName}: {statValue}
+                    {/* {sanitizeStatName(statName)}: {statValue} */}
+                    <span style={{ float: 'left', marginRight: '1rem' }}>{sanitizeStatName(statName)}:</span>
+                    <span style={{ float: 'right' }}>{statValue}</span>
                   </td>
                   <td className={`${style.statsTableCell} ${style.statsBarContainerCell}`}>
                     <div

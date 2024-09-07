@@ -2,6 +2,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import style from './directory.module.css';
 import NoPokemonFound from './NoPokemonFound';
+import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
 
 const SITE_BLUE = '#0047AB';
 
@@ -55,7 +56,7 @@ export default function PokemonList({ pokemon, setSelectedPokemon, selectedPokem
                     : undefined
                 }
               >
-                {highlightMatchedText(name.charAt(0).toUpperCase() + name.slice(1), searchTerm)}
+                {highlightMatchedText(capitalizeFirstLetterOfString(name), searchTerm)}
               </button>
             );
           })

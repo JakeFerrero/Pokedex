@@ -36,7 +36,7 @@ export default function Home() {
     (async () => {
       let pokemon: string[] = [];
       try {
-        pokemon = await client.getPokemonByGeneration(2);
+        pokemon = await client.getPokemonByGeneration(5);
         setErrorFetchingPokemonNames(false);
       } catch (error) {
         console.error('Could not fetch list of Pokemon.', error);

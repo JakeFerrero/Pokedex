@@ -10,6 +10,8 @@ export interface GetPokemonResult {
   sprites: Sprite;
   types: Type[];
   stats: Stat[];
+  height: number;
+  weight: number;
 }
 
 export interface GetSpeciesResponse {
@@ -19,6 +21,15 @@ export interface GetSpeciesResponse {
     name: string;
     url: string;
   };
+  genera: Genera[];
+}
+
+export interface Genera {
+  genus: string;
+  language: {
+    name: string;
+    url: string;
+  }
 }
 
 export interface FlavorTextEntry {

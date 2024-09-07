@@ -1,0 +1,4 @@
+.typePill {
+  min-width: 60px;
+  margin: 2px 4px 2px 0; /* top, right, bottom, left */
+}

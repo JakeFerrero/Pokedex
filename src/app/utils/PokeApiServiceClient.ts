@@ -1,5 +1,13 @@
-import { FlavorTextEntry, GetPokemonResult, GetSpeciesResponse, ListPokemonResult, Stat } from '../types/PokeApi';
+import {
+  FlavorTextEntry,
+  Genera,
+  GetPokemonResult,
+  GetSpeciesResponse,
+  ListPokemonResult,
+  Stat
+} from '../types/PokeApi';
 import { Pokemon, Stats } from '../types/Pokemon';
+import { capitalizeFirstLetterOfString } from './capitalizeFirstLetterOfString';
 import { PokemonCache } from './PokemonCache';
 
 const GENERATION_POKEMON_COUNT: Record<string, number> = {
@@ -17,10 +25,13 @@ interface GetPokemonDetails {
   types: string[];
   spriteUrl: string;
   stats: Stats;
+  height: number;
+  weight: number;
 }
 
 interface GetSpeciesDetails {
   eggGroups: string[];
+  genus?: string;
   evolvesFrom?: string;
   flavorText?: string;
 }
@@ -84,11 +95,14 @@ export class PokeApiServiceClient {
     const resp: GetPokemonResult = await apiResponse.json();
     return {
       id: resp.id,
-      name: resp.name.charAt(0).toUpperCase() + resp.name.slice(1),
+      name: capitalizeFirstLetterOfString(resp.name),
       spriteUrl: resp.sprites.front_default,
+      // spriteUrl: (resp as any).sprites.versions['generation-v']['black-white'].animated.front_default,
       abilities: resp.abilities.map((a) => a.ability.name) ?? [],
       types: resp.types.map((t) => t.type.name) ?? [],
-      stats: this.buildStats(resp.stats)
+      stats: this.buildStats(resp.stats),
+      height: (resp.height / 10), // height from API is in decimeters, convert to m
+      weight: (resp.weight / 10) // weight from API is in hectograms, convert to kg
     };
   }
 
@@ -104,16 +118,23 @@ export class PokeApiServiceClient {
     const apiResponse = await fetch(this.baseUrl + `pokemon-species/${name}`);
     const resp: GetSpeciesResponse = await apiResponse.json();
     return {
-      eggGroups: resp.egg_groups.map(e => e.name) ?? [],
+      eggGroups: resp.egg_groups.map((e) => e.name) ?? [],
       evolvesFrom: resp.evolves_from_species?.name,
-      flavorText: this.findFirstEnglishFlavorText(resp.flavor_text_entries)
+      flavorText: this.findFirstEnglishFlavorText(resp.flavor_text_entries),
+      genus: this.findFirstEnglishGenus(resp.genera)
     };
   }
 
   private findFirstEnglishFlavorText(flavorTextEntries: FlavorTextEntry[]): string | undefined {
-    return flavorTextEntries.find(entry => {
+    return flavorTextEntries.find((entry) => {
       return entry.language.name === 'en';
     })?.flavor_text;
+  }
+
+  private findFirstEnglishGenus(genera: Genera[]): string | undefined {
+    return genera.find((g) => {
+      return g.language.name === 'en';
+    })?.genus;
   }
 
   private getPokemonFromCache(name: string): any | undefined {

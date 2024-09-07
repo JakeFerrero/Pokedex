@@ -6,6 +6,9 @@ export interface Pokemon {
   spriteUrl: string;
   eggGroups: string[];
   stats: Stats;
+  height: number;
+  weight: number;
+  genus?: string;
   evolvesFrom?: string;
   flavorText?: string;
 }
