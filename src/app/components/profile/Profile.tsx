@@ -98,6 +98,20 @@ export default function Profile({ pokemon, loading, error }: Props) {
               </div>
             ) : undefined}
             <div>
+              <b>{`Gender: `}</b>
+              {pokemon.genderRate < 0 ? (
+                <>Genderless</>
+              ) : (
+                <div>
+                  <div className={style.genderBarContainer}>
+                    <div className={style.genderMale} style={{ width: `${100 - pokemon.genderRate}%` }} />
+                    <div className={style.genderFemale} style={{ width: `${pokemon.genderRate}%` }} />
+                  </div>
+                  <>{'Male: ' + (100 - pokemon.genderRate) + '% ' + 'Female: ' + pokemon.genderRate + '%'}</>
+                </div>
+              )}
+            </div>
+            <div>
               <b>{`Abilities: `}</b>
               {pokemon.abilities.map((ability, index) => {
                 return (
@@ -136,7 +150,6 @@ export default function Profile({ pokemon, loading, error }: Props) {
                   }}
                 >
                   <td className={style.statsTableCell}>
-                    {/* {sanitizeStatName(statName)}: {statValue} */}
                     <span style={{ float: 'left', marginRight: '1rem' }}>{sanitizeStatName(statName)}:</span>
                     <span style={{ float: 'right' }}>{statValue}</span>
                   </td>

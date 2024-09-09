@@ -22,6 +22,7 @@ export interface GetSpeciesResponse {
     url: string;
   };
   genera: Genera[];
+  gender_rate: number;
 }
 
 export interface Genera {

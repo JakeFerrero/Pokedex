@@ -31,6 +31,7 @@ interface GetPokemonDetails {
 
 interface GetSpeciesDetails {
   eggGroups: string[];
+  genderRate: number;
   genus?: string;
   evolvesFrom?: string;
   flavorText?: string;
@@ -121,7 +122,8 @@ export class PokeApiServiceClient {
       eggGroups: resp.egg_groups.map((e) => e.name) ?? [],
       evolvesFrom: resp.evolves_from_species?.name,
       flavorText: this.findFirstEnglishFlavorText(resp.flavor_text_entries),
-      genus: this.findFirstEnglishGenus(resp.genera)
+      genus: this.findFirstEnglishGenus(resp.genera),
+      genderRate: (resp.gender_rate / 8 * 100) // API returns gender rate as a value out of 8
     };
   }
 

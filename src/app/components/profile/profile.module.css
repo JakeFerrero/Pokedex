@@ -65,23 +65,6 @@
   margin: 0;
 }
 
-/* ----- Education + Experience ----- */
-.eduExpTitle {
-  font-weight: bold;
-}
-
-.eduExpContainer {
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  /* padding because margin would include the border */
-  padding-left: 1rem;
-  border-left: 1px solid #333;
-}
-
-.eduExpContainer p {
-  margin: 0;
-}
-
 /* ----- Splash Page ----- */
 .splashPage {
   height: 100%;
@@ -93,7 +76,27 @@
   align-items: center;
 }
 
-/*  ----- stats ----- */
+/* ----- Profile Body ----- */
+.genderBarContainer {
+  width: 200px;
+  display: flex;
+}
+
+.genderBarContainer, .genderMale, .genderFemale {
+  height: 20px;
+  border: 0px;
+}
+
+.genderMale {
+  background-color: blue;
+}
+
+.genderFemale {
+  flex: 1;
+  background-color: hotpink;
+}
+
+/* ----- Stats ----- */
 .statsTable {
   margin: 1rem 0;
   table-layout: auto;
