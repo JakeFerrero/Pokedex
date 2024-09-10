@@ -2,7 +2,7 @@ export interface Pokemon {
   id: number;
   name: string;
   abilities: string[];
-  types: string[];
+  types: Type[];
   spriteUrl: string;
   eggGroups: string[];
   stats: Stats;
@@ -22,3 +22,5 @@ export interface Stats {
   'special-defense': number;
   speed: number;
 }
+
+export type Type = 'normal' | 'fire' | 'water' | 'electric' | 'grass' | 'ice' | 'fighting' | 'poison' | 'ground' | 'flying' | 'psychic' | 'bug' | 'rock' | 'ghost' | 'dragon' | 'dark' | 'steel' | 'fairy'

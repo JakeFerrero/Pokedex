@@ -2,10 +2,12 @@
 import ErrorTriangle from '@/app/components/utils/ErrorTriangle';
 import { determineStatColor, TYPE_COLOR_MAP } from '@/app/types/Colors';
 import { Pokemon } from '@/app/types/Pokemon';
+import { calculateTypeWeaknesses } from '@/app/utils/calculateTypeWeaknesses';
 import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
 import avatar from '../../../../public/avatar.png';
 import LoadingSpinner from '../utils/LoadingSpinner';
-import TypePill from '../utils/TypePill';
+import TypeEffectiveness from './PokemonTypes/TypeEffectiveness';
+import TypePill from './PokemonTypes/TypePill';
 import style from './profile.module.css';
 import SplashPage from './SplashPage';
 
@@ -166,6 +168,12 @@ export default function Profile({ pokemon, loading, error }: Props) {
                 </tr>
               ))}
             </table>
+
+            <div>
+              <h4>Type Effectiveness</h4>
+              <hr className={style.profileHr} />
+              <TypeEffectiveness typeEffectivenessMap={calculateTypeWeaknesses(pokemon.types)} />
+            </div>
           </div>
         </div>
       )}

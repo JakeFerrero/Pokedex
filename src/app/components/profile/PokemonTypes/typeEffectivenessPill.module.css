@@ -1,0 +1,27 @@
+.typeEffectivenessPill {
+  width: 125px;
+  height: 28px;
+  border-radius: 40px;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.typeText {
+  flex: 1;
+  color: white;
+  text-align: center;
+}
+
+.effectivenessBubble {
+  width: 24px;
+  height: 24px;
+  background-color: white;
+  border-radius: 50%; /* This makes it a circle */
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-weight: normal;
+}
