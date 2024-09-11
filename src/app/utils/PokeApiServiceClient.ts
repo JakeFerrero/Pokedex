@@ -6,7 +6,7 @@ import {
   ListPokemonResult,
   Stat
 } from '../types/PokeApi';
-import { Pokemon, Stats } from '../types/Pokemon';
+import { Pokemon, Stats, Type } from '../types/Pokemon';
 import { capitalizeFirstLetterOfString } from './capitalizeFirstLetterOfString';
 import { PokemonCache } from './PokemonCache';
 
@@ -22,7 +22,7 @@ interface GetPokemonDetails {
   id: number;
   name: string;
   abilities: string[];
-  types: string[];
+  types: Type[];
   spriteUrl: string;
   stats: Stats;
   height: number;
@@ -32,6 +32,8 @@ interface GetPokemonDetails {
 interface GetSpeciesDetails {
   eggGroups: string[];
   genderRate: number;
+  growthRate: string;
+  captureRate: number;
   genus?: string;
   evolvesFrom?: string;
   flavorText?: string;
@@ -100,7 +102,7 @@ export class PokeApiServiceClient {
       spriteUrl: resp.sprites.front_default,
       // spriteUrl: (resp as any).sprites.versions['generation-v']['black-white'].animated.front_default,
       abilities: resp.abilities.map((a) => a.ability.name) ?? [],
-      types: resp.types.map((t) => t.type.name) ?? [],
+      types: resp.types.map((t) => t.type.name as Type) ?? [],
       stats: this.buildStats(resp.stats),
       height: (resp.height / 10), // height from API is in decimeters, convert to m
       weight: (resp.weight / 10) // weight from API is in hectograms, convert to kg
@@ -123,7 +125,9 @@ export class PokeApiServiceClient {
       evolvesFrom: resp.evolves_from_species?.name,
       flavorText: this.findFirstEnglishFlavorText(resp.flavor_text_entries),
       genus: this.findFirstEnglishGenus(resp.genera),
-      genderRate: (resp.gender_rate / 8 * 100) // API returns gender rate as a value out of 8
+      genderRate: (resp.gender_rate / 8 * 100), // API returns gender rate as a value out of 8
+      growthRate: resp.growth_rate.name,
+      captureRate: resp.capture_rate
     };
   }
 

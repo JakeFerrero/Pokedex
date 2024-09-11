@@ -135,6 +135,12 @@ export default function Profile({ pokemon, loading, error }: Props) {
                 );
               })}
             </div>
+            <div>
+              <b>Growth Rate:</b> {pokemon.growthRate}
+            </div>
+            <div>
+              <b>Capture Rate:</b> {pokemon.captureRate}
+            </div>
 
             <h4>Stats</h4>
             <hr className={style.profileHr} />
@@ -169,6 +175,8 @@ export default function Profile({ pokemon, loading, error }: Props) {
               ))}
             </table>
 
+            <h4>Type Effectiveness</h4>
+            <hr className={style.profileHr} />
             <TypeEffectiveness typeEffectivenessMap={calculateTypeWeaknesses(pokemon.types)} color={typeColor} />
           </div>
         </div>

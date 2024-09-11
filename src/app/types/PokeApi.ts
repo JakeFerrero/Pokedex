@@ -23,6 +23,11 @@ export interface GetSpeciesResponse {
   };
   genera: Genera[];
   gender_rate: number;
+  growth_rate: {
+    name: string;
+    url: string;
+  };
+  capture_rate: number;
 }
 
 export interface Genera {
