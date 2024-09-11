@@ -7,6 +7,7 @@
   align-items: center;
   font-size: 14px;
   font-weight: bold;
+  border: 1px solid black;
 }
 
 .typeText {
@@ -16,11 +17,12 @@
 }
 
 .effectivenessBubble {
-  width: 24px;
-  height: 24px;
+  display: flex;
+  width: 22px;
+  height: 22px;
   background-color: white;
+  font-size: 10px;
   border-radius: 50%; /* This makes it a circle */
-  text-align: center;
   justify-content: center;
   align-items: center;
   font-weight: normal;

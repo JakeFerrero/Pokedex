@@ -43,12 +43,12 @@ const effectivenessMatrix: number[][] = [
 ];
 
 export interface TypeEffectivenessMap extends Record<string, Type[]> {
-  '0': Type[];
-  '1': Type[];
-  '2': Type[];
-  '4': Type[];
-  '.5': Type[];
-  '.25': Type[];
+  0: Type[];
+  1: Type[];
+  2: Type[];
+  4: Type[];
+  0.5: Type[];
+  0.25: Type[];
 }
 
 export function calculateTypeWeaknesses(types: Type[]): TypeEffectivenessMap {
@@ -61,9 +61,15 @@ export function calculateTypeWeaknesses(types: Type[]): TypeEffectivenessMap {
     }
   }
 
-  const typeEffectivenessMap = {} as TypeEffectivenessMap;
+  const typeEffectivenessMap: TypeEffectivenessMap = {
+    0: [],
+    1: [],
+    2: [],
+    4: [],
+    0.5: [],
+    0.25: []
+  };
   effectivenesses.forEach((effectiveness, index) => {
-    if (!typeEffectivenessMap[effectiveness]) typeEffectivenessMap[effectiveness] = [];
     typeEffectivenessMap[effectiveness].push(typeIndices[index]);
   });
 

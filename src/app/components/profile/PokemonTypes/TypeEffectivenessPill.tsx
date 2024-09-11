@@ -5,9 +5,16 @@ import { capitalizeFirstLetterOfString } from "@/app/utils/capitalizeFirstLetter
 
 interface Props {
   type: Type;
+  effectiveness: number;
 }
 
-export default function TypeEffectivenessPill({ type }: Props) {
+function determineEffectivenessText(effectiveness: number): string {
+  if (effectiveness === 0.25) return '1/4';
+  if (effectiveness === 0.5) return '1/2';
+  return '' + effectiveness;
+}
+
+export default function TypeEffectivenessPill({ type, effectiveness }: Props) {
   return (
     <div
       className={style.typeEffectivenessPill}
@@ -15,7 +22,7 @@ export default function TypeEffectivenessPill({ type }: Props) {
         backgroundColor: TYPE_COLOR_MAP[type]
       }}
     >
-      <div className={style.effectivenessBubble}>1x</div>
+      <div className={style.effectivenessBubble}>{`${determineEffectivenessText(effectiveness)}x`}</div>
       <div className={style.typeText}>{capitalizeFirstLetterOfString(type)}</div>
     </div>
   );
