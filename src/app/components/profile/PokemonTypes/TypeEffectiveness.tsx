@@ -9,13 +9,7 @@ interface Props {
 
 export default function TypeEffectiveness({ typeEffectivenessMap, color }: Props) {
   return (
-    <div
-      style={{
-        backgroundColor: color,
-        borderRadius: '10px',
-        border: '1px solid black'
-      }}
-    >
+    <div className={style.container} style={{ backgroundColor: color }}>
       <div className={style.typeEffectivenessRow}>
         <div className={style.typeEffectivenessTextContainer}>Damaged normally by: </div>
         <div className={style.typeEffectivenessPillsContainer}>
@@ -24,6 +18,7 @@ export default function TypeEffectiveness({ typeEffectivenessMap, color }: Props
           })}
         </div>
       </div>
+      <hr />
       <div className={style.typeEffectivenessRow}>
         <div className={style.typeEffectivenessTextContainer}>Weak to: </div>
         <div className={style.typeEffectivenessPillsContainer}>
@@ -35,6 +30,7 @@ export default function TypeEffectiveness({ typeEffectivenessMap, color }: Props
           })}
         </div>
       </div>
+      <hr />
       <div className={style.typeEffectivenessRow}>
         <div className={style.typeEffectivenessTextContainer}>Resists: </div>
         <div className={style.typeEffectivenessPillsContainer}>
@@ -46,6 +42,7 @@ export default function TypeEffectiveness({ typeEffectivenessMap, color }: Props
           })}
         </div>
       </div>
+      <hr />
       <div className={style.typeEffectivenessRow}>
         <div className={style.typeEffectivenessTextContainer}>Immune to: </div>
         <div className={style.typeEffectivenessPillsContainer}>
