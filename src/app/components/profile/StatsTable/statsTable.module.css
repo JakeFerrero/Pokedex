@@ -1,0 +1,26 @@
+.statsTable {
+  margin: 1rem 0;
+  table-layout: auto;
+  border-radius: 10px;
+  border-collapse: separate;
+  overflow: hidden;
+  padding: .5rem;
+}
+
+.statsTable, .statsTableCell {
+  border: 1px solid #000;
+}
+
+.statsTableCell, .statsBarContainerCell {
+  padding: 2px;
+}
+
+.statsBarContainerCell {
+  width: 200px;
+}
+
+.statsBar {
+  height: 1.5rem;
+  border: 1px solid;
+  flex: 1;
+}

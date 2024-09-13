@@ -76,4 +76,9 @@ interface Type {
 
 interface Sprite {
   front_default: string;
+  other: {
+    'official-artwork': {
+      front_default: string;
+    };
+  }
 }

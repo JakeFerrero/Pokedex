@@ -1,4 +1,13 @@
 .typePill {
-  min-width: 60px;
-  margin: 2px 4px 2px 0; /* top, right, bottom, left */
+  width: 80px;
+  height: 24px;
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border: 1px solid black;
+  margin: 2px; /* top, right, bottom, left */
 }

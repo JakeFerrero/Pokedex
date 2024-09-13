@@ -8,13 +8,13 @@ interface Props {
 
 export default function TypePill({ type }: Props) {
   return (
-    <span
-      className={`badge badge-pill ${style.typePill}`}
+    <div
+      className={`${style.typePill}`}
       style={{
         backgroundColor: TYPE_COLOR_MAP[type]
       }}
     >
       {capitalizeFirstLetterOfString(type)}
-    </span>
+    </div>
   );
 }

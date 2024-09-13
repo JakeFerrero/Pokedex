@@ -99,7 +99,7 @@ export class PokeApiServiceClient {
     return {
       id: resp.id,
       name: capitalizeFirstLetterOfString(resp.name),
-      spriteUrl: resp.sprites.front_default,
+      spriteUrl: resp.sprites.other['official-artwork'].front_default,
       // spriteUrl: (resp as any).sprites.versions['generation-v']['black-white'].animated.front_default,
       abilities: resp.abilities.map((a) => a.ability.name) ?? [],
       types: resp.types.map((t) => t.type.name as Type) ?? [],

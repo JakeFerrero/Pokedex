@@ -1,0 +1,20 @@
+.profileHeader {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.pfp {
+  height: 200px;
+  width: 200px;
+  border-radius: 16px;
+}
+
+.profileHeaderText {
+  flex: 1;
+  align-content: center;
+  padding: 1rem;
+}
+
+.profileHeaderText p {
+  margin: 0;
+}

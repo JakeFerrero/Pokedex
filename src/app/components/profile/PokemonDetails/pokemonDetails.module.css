@@ -1,0 +1,19 @@
+/* ----- Gender Bar ----- */
+.genderBarContainer {
+  width: 200px;
+  display: flex;
+}
+
+.genderBarContainer, .genderMale, .genderFemale {
+  height: 20px;
+  border: 0px;
+}
+
+.genderMale {
+  background-color: blue;
+}
+
+.genderFemale {
+  flex: 1;
+  background-color: hotpink;
+}
