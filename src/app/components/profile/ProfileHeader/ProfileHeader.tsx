@@ -12,15 +12,19 @@ interface Props {
 export default function profileHeader({ pokemon, typeColor }: Props) {
   return (
     <div className={style.profileHeader}>
-      <img
-        src={pokemon.spriteUrl ?? avatar.src}
-        alt={pokemon.name}
-        className={style.pfp}
-        onError={(e) => (e.currentTarget.src = avatar.src)}
-        style={{
-          border: `4px solid ${typeColor}`
-        }}
-      />
+      <div className={style.pfpContainer}>
+        <img
+          src={pokemon.spriteUrl ?? avatar.src}
+          alt={pokemon.name}
+          className={style.pfp}
+          onError={(e) => (e.currentTarget.src = avatar.src)}
+          style={
+            {
+              // border: `4px solid ${typeColor}`
+            }
+          }
+        />
+      </div>
       <div className={style.profileHeaderText}>
         <h2>{capitalizeFirstLetterOfString(pokemon.name)}</h2>
         <div style={{ display: 'flex' }}>

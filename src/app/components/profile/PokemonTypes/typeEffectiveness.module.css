@@ -1,6 +1,7 @@
 .container {
   border-radius: 10px;
   border: 1px solid black;
+  padding: 8px 4px;
 }
 
 .container hr {

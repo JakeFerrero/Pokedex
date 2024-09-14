@@ -1,20 +1,44 @@
 .profileHeader {
   display: flex;
   margin-bottom: 2rem;
+  background-color: #252525;
+  border-radius: 24px;
+  padding: 1rem 2rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .pfp {
   height: 200px;
   width: 200px;
-  border-radius: 16px;
+  background-color: #c9e4e6;
+  border-radius: 8px;
+  border: 1px solid black;
 }
 
 .profileHeaderText {
   flex: 1;
+  height: 200px;
   align-content: center;
   padding: 1rem;
+  background-color: #fff;
+  color: black;
+  border-radius: 8px;
+  margin-left: 1rem;
+  border: 1px solid black;
 }
 
 .profileHeaderText p {
   margin: 0;
+}
+
+.pfpContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 250px;
+  padding: 1rem;
+  background-color: #fff;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%, 0 90%);
 }

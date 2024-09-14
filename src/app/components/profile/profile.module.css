@@ -16,10 +16,10 @@
 
 .profile {
   /* using padding here so when scrolling there is no white space on top/bottom */
-  padding: 1rem;
-  margin: 0 0 0 1rem;
+  padding: 1rem 1rem 1rem 2rem;
   flex: 1;
   overflow: auto;
+  background-color: #f45138;
 }
 
 .profile h2 {
