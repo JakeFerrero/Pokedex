@@ -18,11 +18,6 @@ export default function profileHeader({ pokemon, typeColor }: Props) {
           alt={pokemon.name}
           className={style.pfp}
           onError={(e) => (e.currentTarget.src = avatar.src)}
-          style={
-            {
-              // border: `4px solid ${typeColor}`
-            }
-          }
         />
       </div>
       <div className={style.profileHeaderText}>

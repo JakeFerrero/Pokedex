@@ -54,3 +54,17 @@
   justify-content: center;
   align-items: center;
 }
+
+.depressedDiv {
+  background-color: #f45138;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 
+      inset 5px 5px 10px rgba(0, 0, 0, 0.2), /* Dark inner shadow */
+      inset -5px -5px 10px rgba(0, 0, 0, 0.2); /* Light inner shadow */
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  color: #333;
+  font-family: Arial, sans-serif;
+}

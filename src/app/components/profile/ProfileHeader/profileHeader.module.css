@@ -8,6 +8,17 @@
   justify-content: center;
 }
 
+.pfpContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 250px;
+  padding: 1rem;
+  background-color: #edeee4;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%, 0 90%);
+}
+
 .pfp {
   height: 200px;
   width: 200px;
@@ -21,24 +32,12 @@
   height: 200px;
   align-content: center;
   padding: 1rem;
-  background-color: #fff;
+  background-color: white;
   color: black;
-  border-radius: 8px;
   margin-left: 1rem;
   border: 1px solid black;
 }
 
 .profileHeaderText p {
   margin: 0;
-}
-
-.pfpContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 250px;
-  height: 250px;
-  padding: 1rem;
-  background-color: #fff;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%, 0 90%);
 }

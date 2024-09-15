@@ -1,7 +1,12 @@
+.statsTableContainer {
+  background-color: #252525;
+  padding: 1rem;
+  border-radius: 8px;
+  display: inline-block;
+}
+
 .statsTable {
-  margin: 1rem 0;
   table-layout: auto;
-  border-radius: 10px;
   border-collapse: separate;
   overflow: hidden;
   padding: .5rem;

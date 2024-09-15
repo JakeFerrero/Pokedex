@@ -43,17 +43,17 @@ export default function Profile({ pokemon, loading, error }: Props) {
           <ProfileHeader pokemon={pokemon} typeColor={typeColor} />
 
           {/* Profile Body */}
-          <h4>Details</h4>
-          <hr className={style.profileHr} />
-          <PokemonDetails pokemon={pokemon} />
-
-          <h4>Stats</h4>
-          <hr className={style.profileHr} />
-          <StatsTable pokemon={pokemon} bgColor={typeColor} />
-
-          <h4>Type Effectiveness</h4>
-          <hr className={style.profileHr} />
-          <TypeEffectiveness typeEffectivenessMap={calculateTypeWeaknesses(pokemon.types)} color={typeColor} />
+          <div className={style.depressedDiv}>
+            <h4>Details</h4>
+            <hr className={style.profileHr} />
+            <PokemonDetails pokemon={pokemon} />
+            <h4>Stats</h4>
+            <hr className={style.profileHr} />
+            <StatsTable pokemon={pokemon} bgColor={typeColor} />
+            <h4>Type Effectiveness</h4>
+            <hr className={style.profileHr} />
+            <TypeEffectiveness typeEffectivenessMap={calculateTypeWeaknesses(pokemon.types)} color={typeColor} />
+          </div>
         </div>
       )}
     </div>
