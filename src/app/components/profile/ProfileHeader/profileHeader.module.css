@@ -17,6 +17,7 @@
   padding: 1rem;
   background-color: #edeee4;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%, 0 90%);
+  box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.17);
 }
 
 .pfp {
