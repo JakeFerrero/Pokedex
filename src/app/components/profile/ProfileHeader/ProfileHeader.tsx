@@ -31,6 +31,10 @@ export default function profileHeader({ pokemon, typeColor }: Props) {
           <i>{pokemon.flavorText}</i>
         </p>
       </div>
+      <div className={style.pokeballContainer}>
+        <div className={style.pokeball} />
+      </div>
+      {/* Maybe d-pad that controls form and "speaker" lines on bottom right */}
     </div>
   );
 }
