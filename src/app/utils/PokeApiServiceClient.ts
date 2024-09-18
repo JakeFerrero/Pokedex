@@ -6,7 +6,7 @@ import {
   ListPokemonResult,
   Stat
 } from '../types/PokeApi';
-import { Pokemon, Stats, Type } from '../types/Pokemon';
+import { Pokemon, PokemonMetadata, Stats, Type } from '../types/Pokemon';
 import { capitalizeFirstLetterOfString } from './capitalizeFirstLetterOfString';
 import { PokemonCache } from './PokemonCache';
 
@@ -56,7 +56,7 @@ export class PokeApiServiceClient {
     this.cache = cache;
   }
 
-  async getPokemonByGeneration(generation: number): Promise<string[]> {
+  async getPokemonByGeneration(generation: number): Promise<PokemonMetadata[]> {
     const count = GENERATION_POKEMON_COUNT['' + generation];
 
     function buildOffset(targetGeneration: number): number {
@@ -70,7 +70,25 @@ export class PokeApiServiceClient {
 
     const offset = buildOffset(generation);
     const apiResponse = await fetch(this.baseUrl + `pokemon/?limit=${count}&offset=${offset}`);
-    return ((await apiResponse.json()).results as ListPokemonResult[]).map((mon) => mon.name) ?? [];
+
+    /**
+     * The url syntax that is returned from the Poke API has the pokemon's number/id
+     * as the last portion of the url. So we can use the url to get the pokemon's number
+     * since it isn't in the original response.
+     */
+    const getIdFromUrl = (url: string): number => {
+      // https://pokeapi.co/api/v2/pokemon/104/ -> 104
+      return parseInt(url.split('/')[6]);
+    };
+
+    return (
+      ((await apiResponse.json()).results as ListPokemonResult[]).map((mon) => {
+        return {
+          name: mon.name,
+          id: getIdFromUrl(mon.url)
+        };
+      }) ?? []
+    );
   }
 
   async getPokemonByName(name: string): Promise<Pokemon> {
@@ -103,8 +121,8 @@ export class PokeApiServiceClient {
       abilities: resp.abilities.map((a) => a.ability.name) ?? [],
       types: resp.types.map((t) => t.type.name as Type) ?? [],
       stats: this.buildStats(resp.stats),
-      height: (resp.height / 10), // height from API is in decimeters, convert to m
-      weight: (resp.weight / 10) // weight from API is in hectograms, convert to kg
+      height: resp.height / 10, // height from API is in decimeters, convert to m
+      weight: resp.weight / 10 // weight from API is in hectograms, convert to kg
     };
   }
 
@@ -124,7 +142,7 @@ export class PokeApiServiceClient {
       evolvesFrom: resp.evolves_from_species?.name,
       flavorText: this.findFirstEnglishFlavorText(resp.flavor_text_entries),
       genus: this.findFirstEnglishGenus(resp.genera),
-      genderRate: (resp.gender_rate / 8 * 100), // API returns gender rate as a value out of 8
+      genderRate: (resp.gender_rate / 8) * 100, // API returns gender rate as a value out of 8
       growthRate: resp.growth_rate.name,
       captureRate: resp.capture_rate
     };

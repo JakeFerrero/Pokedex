@@ -3,7 +3,7 @@
   width: 25%;
   min-width: 200px;
   max-width: 250px;
-  border-right: 2px solid #666;
+  border-right: 2px solid black;
   display: flex;
   flex-direction: column;
 }
@@ -17,19 +17,21 @@
 }
 
 .directory, .directorySpinnerContainer {
-  background-color: #f0f0f0;
+  background-color: grey;
 }
 
 /* ----- Search + Filter ----- */
 .searchBar, .filterContainer {
   border-radius: 0;
+  border-left: 1px solid black;
   display: flex;
 }
 
 .filterContainer {
   padding: 8px 16px;
-  background-color: #f0f0f0;
-  border-bottom: 1px solid #666
+  background-color: grey;
+  border-left: 1px solid black;
+  border-top: 1px solid black;
 }
 
 /* ----- Pokemon List ----- */
@@ -42,10 +44,18 @@
 }
 
 .pokemonListItem {
-  background-color: #f0f0f0;
+  background-color: grey;
+  color: black;
+  border: 1px solid black;
+  border-right: 0px; 
+}
+
+.pokemonListItem:hover {
+  background-color: #282828;
+  color: white;;
 }
 
 .noPokemonFound {
-  background-color: #f0f0f0;
+  background-color: grey;
   padding: 8px 16px;
 }

@@ -3,11 +3,10 @@ import { Dispatch, SetStateAction } from 'react';
 import style from './directory.module.css';
 import NoPokemonFound from './NoPokemonFound';
 import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
-
-const SITE_BLUE = '#0047AB';
+import { PokemonMetadata } from '@/app/types/Pokemon';
 
 interface Props {
-  pokemon: string[];
+  pokemon: PokemonMetadata[];
   setSelectedPokemon: Dispatch<SetStateAction<string | undefined>>;
   searchTerm: string;
   selectedPokemon?: string;
@@ -36,27 +35,27 @@ export default function PokemonList({ pokemon, setSelectedPokemon, selectedPokem
         <NoPokemonFound />
       ) : (
         pokemon
-          .filter((name: string) => name.toLowerCase().includes(searchTerm))
-          .map((name: string, index: number) => {
+          .filter((mon: PokemonMetadata) => mon.name.toLowerCase().includes(searchTerm))
+          .map((mon: PokemonMetadata) => {
             return (
               <button
-                key={index}
+                key={mon.id}
                 type="button"
                 className={`list-group-item list-group-item-action ${style.pokemonListItem}`}
-                onClick={() => setSelectedPokemon(name)}
+                onClick={() => setSelectedPokemon(mon.name)}
                 // using style here because I need to use a conditional on a pokemon's's attributes,
                 // which I cannot access in css
                 style={
-                  name === selectedPokemon
+                  mon.name === selectedPokemon
                     ? {
-                        backgroundColor: 'grey',
-                        borderColor: 'grey',
+                        backgroundColor: 'green',
                         color: 'white'
                       }
                     : undefined
                 }
               >
-                {highlightMatchedText(capitalizeFirstLetterOfString(name), searchTerm)}
+                No. {mon.id + ' '}
+                {highlightMatchedText(capitalizeFirstLetterOfString(mon.name), searchTerm)}
               </button>
             );
           })

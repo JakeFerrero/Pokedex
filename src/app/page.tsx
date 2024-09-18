@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Directory from './components/directory/Directory';
 import Profile from './components/profile/Profile';
 import style from './page.module.css';
-import { Pokemon } from './types/Pokemon';
+import { Pokemon, PokemonMetadata } from './types/Pokemon';
 import { PokeApiServiceClient } from './utils/PokeApiServiceClient';
 import { CachedPokemon, PokemonCache } from './utils/PokemonCache';
 
@@ -17,7 +17,7 @@ const client = new PokeApiServiceClient(cache);
 
 export default function Home() {
   // pokemon, selected pokemon and their details
-  const [pokemon, setPokemon] = useState<string[]>([]);
+  const [pokemon, setPokemon] = useState<PokemonMetadata[]>([]);
   const [selectedPokemon, setSelectedPokemon] = useState<string | undefined>();
   const [selectedPokemonDeatils, setSelectedPokemonDetails] = useState<Pokemon | undefined>();
 
@@ -34,7 +34,7 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      let pokemon: string[] = [];
+      let pokemon: PokemonMetadata[] = [];
       try {
         pokemon = await client.getPokemonByGeneration(1);
         setErrorFetchingPokemonNames(false);

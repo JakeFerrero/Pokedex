@@ -4,9 +4,10 @@ import LoadingSpinner from '../utils/LoadingSpinner';
 import SearchFilterBox from './SearchFilterBox';
 import style from './directory.module.css';
 import PokemonList from './PokemonList';
+import { PokemonMetadata } from '@/app/types/Pokemon';
 
 interface Props {
-  pokemon: string[];
+  pokemon: PokemonMetadata[];
   loading: boolean;
   selectedPokemon: string | undefined;
   setSelectedPokemon: Dispatch<SetStateAction<string | undefined>>;
