@@ -1,0 +1,18 @@
+.pokeball {
+  animation: loading 1.5s linear infinite;
+  background-color: black;
+  border: 2px solid black;
+  height: 48px;
+  width: 48px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background-image:
+    radial-gradient(white 20%, white 20%, black 20%, black 30%, transparent 30%, transparent),
+    linear-gradient(red 46%, black 46%, black 54%, white 54%);
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(360deg);
+  }
+}
