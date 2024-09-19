@@ -54,7 +54,7 @@ export default function PokemonList({ pokemon, setSelectedPokemon, selectedPokem
                     : undefined
                 }
               >
-                No. {mon.id + ' '}
+                No. {mon.id + ': '}
                 {highlightMatchedText(capitalizeFirstLetterOfString(mon.name), searchTerm)}
               </button>
             );
