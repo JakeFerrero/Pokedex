@@ -15,6 +15,7 @@ export interface GetPokemonResult {
 }
 
 export interface GetSpeciesResponse {
+  id: number;
   egg_groups: EggGroup[];
   flavor_text_entries: FlavorTextEntry[];
   evolves_from_species?: {
@@ -28,6 +29,15 @@ export interface GetSpeciesResponse {
     url: string;
   };
   capture_rate: number;
+  varieties: Variety[];
+}
+
+interface Variety {
+  is_default: boolean;
+  pokemon: {
+    name: string;
+    url: string;
+  };
 }
 
 export interface Genera {
@@ -35,7 +45,7 @@ export interface Genera {
   language: {
     name: string;
     url: string;
-  }
+  };
 }
 
 export interface FlavorTextEntry {
@@ -80,5 +90,5 @@ interface Sprite {
     'official-artwork': {
       front_default: string;
     };
-  }
+  };
 }

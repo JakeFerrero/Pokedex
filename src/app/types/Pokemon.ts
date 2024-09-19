@@ -16,6 +16,7 @@ export interface Pokemon {
   genderRate: number;
   growthRate: string;
   captureRate: number;
+  forms: string[];
   genus?: string;
   evolvesFrom?: string;
   flavorText?: string;

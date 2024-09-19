@@ -10,12 +10,11 @@ import { Pokemon, PokemonMetadata, Stats, Type } from '../types/Pokemon';
 import { Region } from '../types/Regions';
 import { capitalizeFirstLetterOfString } from './capitalizeFirstLetterOfString';
 import { PokemonCache } from './PokemonCache';
-import { sleep } from './sleep';
 
 const REGION_POKEMON_COUNT: Record<Region, number> = {
-  'Kanto': 151,
-  'Johto': 100,
-  'Hoenn': 135
+  Kanto: 151,
+  Johto: 100,
+  Hoenn: 135
 };
 
 interface GetPokemonDetails {
@@ -34,9 +33,20 @@ interface GetSpeciesDetails {
   genderRate: number;
   growthRate: string;
   captureRate: number;
+  forms: string[];
   genus?: string;
   evolvesFrom?: string;
   flavorText?: string;
+}
+
+/**
+ * The url syntax that is returned from the Poke API has the pokemon's number/id
+ * as the last portion of the url. So we can use the url to get the pokemon's number
+ * since it isn't in the original response.
+ */
+function getIdFromUrl(url: string): number {
+  // https://pokeapi.co/api/v2/pokemon/104/ -> 104
+  return parseInt(url.split('/')[6]);
 }
 
 /**
@@ -57,7 +67,6 @@ export class PokeApiServiceClient {
   }
 
   async getPokemonByRegion(region: Region): Promise<PokemonMetadata[]> {
-    await sleep(3000);
     const count = REGION_POKEMON_COUNT[region];
 
     function buildOffset(targetRegion: Region): number {
@@ -72,16 +81,6 @@ export class PokeApiServiceClient {
     const offset = buildOffset(region);
     const apiResponse = await fetch(this.baseUrl + `pokemon/?limit=${count}&offset=${offset}`);
 
-    /**
-     * The url syntax that is returned from the Poke API has the pokemon's number/id
-     * as the last portion of the url. So we can use the url to get the pokemon's number
-     * since it isn't in the original response.
-     */
-    const getIdFromUrl = (url: string): number => {
-      // https://pokeapi.co/api/v2/pokemon/104/ -> 104
-      return parseInt(url.split('/')[6]);
-    };
-
     return (
       ((await apiResponse.json()).results as ListPokemonResult[]).map((mon) => {
         return {
@@ -92,22 +91,20 @@ export class PokeApiServiceClient {
     );
   }
 
-  async getPokemonByName(name: string): Promise<Pokemon> {
+  async getPokemonByName(name: string, form?: string): Promise<Pokemon> {
     if (this.cache) {
-      const cachedDetails = this.getPokemonFromCache(name);
+      const cachedDetails = this.getPokemonFromCache(form ?? name);
       if (cachedDetails) return cachedDetails;
     }
 
-    const pokemonDetails = await this.getPokemonDetailsByName(name);
+    const pokemonDetails = await this.getPokemonDetailsByName(form ?? name);
     const speciesDetails = await this.getPokemonSpeciesByName(name);
     const pokemon = {
       ...pokemonDetails,
       ...speciesDetails
     };
 
-    if (this.cache) {
-      this.setPokemonInCache(name, pokemon);
-    }
+    if (this.cache) this.setPokemonInCache(form ?? name, pokemon);
 
     return pokemon;
   }
@@ -145,7 +142,8 @@ export class PokeApiServiceClient {
       genus: this.findFirstEnglishGenus(resp.genera),
       genderRate: (resp.gender_rate / 8) * 100, // API returns gender rate as a value out of 8
       growthRate: resp.growth_rate.name,
-      captureRate: resp.capture_rate
+      captureRate: resp.capture_rate,
+      forms: resp.varieties.map((variety) => variety.pokemon.name)
     };
   }
 

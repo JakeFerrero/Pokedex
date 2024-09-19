@@ -2,12 +2,12 @@
 import { useEffect, useState } from 'react';
 import Directory from './components/directory/Directory';
 import Profile from './components/profile/Profile';
+import WebsiteHeader from './components/utils/WebsiteHeader';
 import style from './page.module.css';
 import { Pokemon, PokemonMetadata } from './types/Pokemon';
+import { Region } from './types/Regions';
 import { PokeApiServiceClient } from './utils/PokeApiServiceClient';
 import { CachedPokemon, PokemonCache } from './utils/PokemonCache';
-import WebsiteHeader from './components/utils/WebsiteHeader';
-import { Region } from './types/Regions';
 
 const clearCache = () => localStorage.removeItem('pokemonDetailsCache');
 const getCache = () => localStorage.getItem('pokemonDetailsCache');
@@ -22,6 +22,9 @@ export default function Home() {
   const [pokemon, setPokemon] = useState<PokemonMetadata[]>([]);
   const [selectedPokemon, setSelectedPokemon] = useState<string | undefined>();
   const [selectedPokemonDeatils, setSelectedPokemonDetails] = useState<Pokemon | undefined>();
+
+  // form of pokemon
+  const [pokemonForm, setPokemonForm] = useState<string | undefined>();
 
   // region
   const [region, setRegion] = useState<Region>('Kanto');
@@ -57,8 +60,9 @@ export default function Home() {
     // only make the API call once a pokemon has been selected
     selectedPokemon &&
       (async () => {
-        // when the selected pokemon changes, reset details
+        // when the selected pokemon changes, reset details and form
         setSelectedPokemonDetails(undefined);
+        setPokemonForm(undefined);
         setProfileLoading(true);
         let details: Pokemon | undefined;
         try {
@@ -73,9 +77,29 @@ export default function Home() {
       })();
   }, [selectedPokemon]);
 
+  // form change
+  useEffect(() => {
+    selectedPokemon &&
+      (async () => {
+        // when the pokemon form changes, reset details
+        setSelectedPokemonDetails(undefined);
+        setProfileLoading(true);
+        let details: Pokemon | undefined;
+        try {
+          details = await client.getPokemonByName(selectedPokemon, pokemonForm);
+          setErrorFetchingPokemonDetails(false);
+        } catch (error) {
+          console.error('Could not fetch information for selected Pokemon.', error);
+          setErrorFetchingPokemonDetails(true);
+        }
+        setSelectedPokemonDetails(details);
+        setProfileLoading(false);
+      })();
+  }, [pokemonForm]);
+
   return (
     <div>
-      <WebsiteHeader selectedRegion={region} setRegion={setRegion}/>
+      <WebsiteHeader selectedRegion={region} setRegion={setRegion} />
       <div className={style.pokedex}>
         <Directory
           pokemon={pokemon}
@@ -86,7 +110,13 @@ export default function Home() {
           setSearchValue={setSearchValue}
           error={errorFetchingPokemonNames}
         />
-        <Profile pokemon={selectedPokemonDeatils} loading={profileLoading} error={errorFetchingPokemonDetails} />
+        <Profile
+          pokemon={selectedPokemonDeatils}
+          loading={profileLoading}
+          error={errorFetchingPokemonDetails}
+          currentForm={pokemonForm}
+          setForm={setPokemonForm}
+        />
       </div>
     </div>
   );
