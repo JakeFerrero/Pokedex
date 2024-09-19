@@ -1,10 +1,10 @@
 import ErrorTriangle from '@/app/components/utils/ErrorTriangle';
+import { PokemonMetadata } from '@/app/types/Pokemon';
 import { Dispatch, SetStateAction } from 'react';
 import LoadingSpinner from '../utils/LoadingSpinner';
-import SearchFilterBox from './SearchFilterBox';
 import style from './directory.module.css';
 import PokemonList from './PokemonList';
-import { PokemonMetadata } from '@/app/types/Pokemon';
+import SearchFilterBox from './SearchFilterBox';
 
 interface Props {
   pokemon: PokemonMetadata[];
@@ -32,7 +32,10 @@ export default function Directory({
         <div className={style.directorySpinnerContainer}>
           <LoadingSpinner />
         </div>
-      ) : error ? (
+      ) : (
+        <></>
+      )}
+      {error ? (
         <ErrorTriangle size="small" message="Failed to fetch Pokemon" />
       ) : (
         <PokemonList
@@ -40,6 +43,7 @@ export default function Directory({
           setSelectedPokemon={setSelectedPokemon}
           selectedPokemon={selectedPokemon}
           searchTerm={searchValue}
+          loading={loading}
         />
       )}
     </div>

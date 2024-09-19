@@ -10,6 +10,7 @@ import { Pokemon, PokemonMetadata, Stats, Type } from '../types/Pokemon';
 import { Region } from '../types/Regions';
 import { capitalizeFirstLetterOfString } from './capitalizeFirstLetterOfString';
 import { PokemonCache } from './PokemonCache';
+import { sleep } from './sleep';
 
 const REGION_POKEMON_COUNT: Record<Region, number> = {
   'Kanto': 151,
@@ -56,6 +57,7 @@ export class PokeApiServiceClient {
   }
 
   async getPokemonByRegion(region: Region): Promise<PokemonMetadata[]> {
+    await sleep(3000);
     const count = REGION_POKEMON_COUNT[region];
 
     function buildOffset(targetRegion: Region): number {
