@@ -6,6 +6,8 @@ import style from './page.module.css';
 import { Pokemon, PokemonMetadata } from './types/Pokemon';
 import { PokeApiServiceClient } from './utils/PokeApiServiceClient';
 import { CachedPokemon, PokemonCache } from './utils/PokemonCache';
+import WebsiteHeader from './components/utils/WebsiteHeader';
+import { Region } from './types/Regions';
 
 const clearCache = () => localStorage.removeItem('pokemonDetailsCache');
 const getCache = () => localStorage.getItem('pokemonDetailsCache');
@@ -21,6 +23,9 @@ export default function Home() {
   const [selectedPokemon, setSelectedPokemon] = useState<string | undefined>();
   const [selectedPokemonDeatils, setSelectedPokemonDetails] = useState<Pokemon | undefined>();
 
+  // region
+  const [region, setRegion] = useState<Region>('Kanto');
+
   // directory and profile loading status
   const [loading, setLoading] = useState(true);
   const [profileLoading, setProfileLoading] = useState(false);
@@ -34,9 +39,10 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       let pokemon: PokemonMetadata[] = [];
       try {
-        pokemon = await client.getPokemonByGeneration(1);
+        pokemon = await client.getPokemonByRegion(region);
         setErrorFetchingPokemonNames(false);
       } catch (error) {
         console.error('Could not fetch list of Pokemon.', error);
@@ -45,7 +51,7 @@ export default function Home() {
       setPokemon(pokemon);
       setLoading(false);
     })();
-  }, []);
+  }, [region]);
 
   useEffect(() => {
     // only make the API call once a pokemon has been selected
@@ -68,17 +74,20 @@ export default function Home() {
   }, [selectedPokemon]);
 
   return (
-    <div className={style.webAddressBook}>
-      <Directory
-        pokemon={pokemon}
-        loading={loading}
-        selectedPokemon={selectedPokemon}
-        setSelectedPokemon={setSelectedPokemon}
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-        error={errorFetchingPokemonNames}
-      />
-      <Profile pokemon={selectedPokemonDeatils} loading={profileLoading} error={errorFetchingPokemonDetails} />
+    <div>
+      <WebsiteHeader selectedRegion={region} setRegion={setRegion}/>
+      <div className={style.pokedex}>
+        <Directory
+          pokemon={pokemon}
+          loading={loading}
+          selectedPokemon={selectedPokemon}
+          setSelectedPokemon={setSelectedPokemon}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          error={errorFetchingPokemonNames}
+        />
+        <Profile pokemon={selectedPokemonDeatils} loading={profileLoading} error={errorFetchingPokemonDetails} />
+      </div>
     </div>
   );
 }

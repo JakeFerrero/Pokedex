@@ -46,6 +46,18 @@
   justify-content: right;
 }
 
+.regionButton {
+  border: 0px;
+  background-color: #111;
+  color: lightgrey;
+}
+
+.regionDivider {
+  border-left: 1px solid #38546d; 
+  border-right: 1px solid #16222c; 
+  height: 2rem;
+}
+
 .decorativeCircle {
   height: 10px;
   width: 10px;

@@ -7,15 +7,14 @@ import {
   Stat
 } from '../types/PokeApi';
 import { Pokemon, PokemonMetadata, Stats, Type } from '../types/Pokemon';
+import { Region } from '../types/Regions';
 import { capitalizeFirstLetterOfString } from './capitalizeFirstLetterOfString';
 import { PokemonCache } from './PokemonCache';
 
-const GENERATION_POKEMON_COUNT: Record<string, number> = {
-  '1': 151,
-  '2': 100,
-  '3': 135,
-  '4': 107,
-  '5': 156
+const REGION_POKEMON_COUNT: Record<Region, number> = {
+  'Kanto': 151,
+  'Johto': 100,
+  'Hoenn': 135
 };
 
 interface GetPokemonDetails {
@@ -56,19 +55,19 @@ export class PokeApiServiceClient {
     this.cache = cache;
   }
 
-  async getPokemonByGeneration(generation: number): Promise<PokemonMetadata[]> {
-    const count = GENERATION_POKEMON_COUNT['' + generation];
+  async getPokemonByRegion(region: Region): Promise<PokemonMetadata[]> {
+    const count = REGION_POKEMON_COUNT[region];
 
-    function buildOffset(targetGeneration: number): number {
+    function buildOffset(targetRegion: Region): number {
       let offset = 0;
-      for (const [gen, numPokemon] of Object.entries(GENERATION_POKEMON_COUNT)) {
-        if (gen === '' + targetGeneration) break;
+      for (const [region, numPokemon] of Object.entries(REGION_POKEMON_COUNT)) {
+        if (region === targetRegion) break;
         offset += numPokemon;
       }
       return offset;
     }
 
-    const offset = buildOffset(generation);
+    const offset = buildOffset(region);
     const apiResponse = await fetch(this.baseUrl + `pokemon/?limit=${count}&offset=${offset}`);
 
     /**
