@@ -3,30 +3,15 @@
   background-color: #252525;
   padding: 1rem;
   border-radius: 8px;
-  display: inline-block;
-}
-
-.detailsTextBox {
-  background-color: white;
-  padding: 8px;
-}
-
-/* ----- Gender Bar ----- */
-.genderBarContainer {
-  width: 200px;
   display: flex;
+  width: fit-content;
+  justify-content: space-between; /* Ensures space between elements */
+  gap: 1rem; /* The space between each item */
 }
 
-.genderBarContainer, .genderMale, .genderFemale {
-  height: 20px;
-  border: 0px;
-}
-
-.genderMale {
-  background-color: blue;
-}
-
-.genderFemale {
-  flex: 1;
-  background-color: hotpink;
+.detailsInfoBox {
+  background-color: white;
+  padding: .5rem;
+  width: fit-content;
+  height: fit-content;
 }

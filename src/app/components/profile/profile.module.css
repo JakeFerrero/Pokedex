@@ -16,7 +16,7 @@
 
 .profile {
   /* using padding here so when scrolling there is no white space on top/bottom */
-  padding: 1rem 1rem 1rem 2rem;
+  padding: 1rem 2rem;
   flex: 1;
   overflow: auto;
   background-color: #f45138;
@@ -62,9 +62,6 @@
   box-shadow: 
       inset 5px 5px 10px rgba(0, 0, 0, 0.2),
       inset -5px -5px 10px rgba(0, 0, 0, 0.2);
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
   color: #333;
   font-family: Arial, sans-serif;
 }

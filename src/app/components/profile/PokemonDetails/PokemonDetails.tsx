@@ -1,6 +1,7 @@
 import { Pokemon } from '@/app/types/Pokemon';
 import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
 import style from './pokemonDetails.module.css';
+import GenderChart from './GenderChart';
 
 interface Props {
   pokemon: Pokemon;
@@ -20,7 +21,7 @@ function sanitizeAbilityName(abilityName: string) {
 export default function PokemonDetails({ pokemon }: Props) {
   return (
     <div className={style.detailsContainer}>
-      <div className={style.detailsTextBox}>
+      <div className={style.detailsInfoBox}>
         <div>
           <b>{`Species: `}</b>
           {pokemon.genus}
@@ -37,20 +38,6 @@ export default function PokemonDetails({ pokemon }: Props) {
             {capitalizeFirstLetterOfString(pokemon.evolvesFrom)}
           </div>
         ) : undefined}
-        <div>
-          <b>{`Gender: `}</b>
-          {pokemon.genderRate < 0 ? (
-            <>Genderless</>
-          ) : (
-            <div>
-              <div className={style.genderBarContainer}>
-                <div className={style.genderMale} style={{ width: `${100 - pokemon.genderRate}%` }} />
-                <div className={style.genderFemale} style={{ width: `${pokemon.genderRate}%` }} />
-              </div>
-              <>{'Male: ' + (100 - pokemon.genderRate) + '% ' + 'Female: ' + pokemon.genderRate + '%'}</>
-            </div>
-          )}
-        </div>
         <div>
           <b>{`Abilities: `}</b>
           {pokemon.abilities.map((ability, index) => {
@@ -80,6 +67,7 @@ export default function PokemonDetails({ pokemon }: Props) {
           <b>Capture Rate:</b> {pokemon.captureRate}
         </div>
       </div>
+      <GenderChart genderRate={pokemon.genderRate} />
     </div>
   );
 }
