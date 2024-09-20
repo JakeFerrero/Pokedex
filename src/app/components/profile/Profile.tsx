@@ -17,10 +17,12 @@ interface Props {
   loading: boolean;
   error: boolean;
   currentForm: string | undefined;
+  shiny: boolean;
+  setShiny: Dispatch<SetStateAction<boolean>>;
   setForm: Dispatch<SetStateAction<string | undefined>>;
 }
 
-export default function Profile({ pokemon, loading, error, currentForm, setForm }: Props) {
+export default function Profile({ pokemon, loading, error, currentForm, setForm, shiny, setShiny }: Props) {
   let typeColor: string | undefined;
   if (pokemon) typeColor = TYPE_COLOR_MAP[pokemon.types[0]];
 
@@ -43,7 +45,7 @@ export default function Profile({ pokemon, loading, error, currentForm, setForm 
         // unique key is needed so this div with animation is redrawn every time the pokemon changes
         <div key={pokemon.id} className={style.fadeInRight}>
           {/* Profile Header */}
-          <ProfileHeader pokemon={pokemon} typeColor={typeColor} />
+          <ProfileHeader pokemon={pokemon} typeColor={typeColor} shiny={shiny} setShiny={setShiny} />
 
           {/* Profile Body */}
           <div className={style.depressedDiv}>

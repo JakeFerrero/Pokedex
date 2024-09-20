@@ -1,27 +1,53 @@
 import { Pokemon } from '@/app/types/Pokemon';
 import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
+import { Dispatch, SetStateAction } from 'react';
 import avatar from '../../../../../public/avatar.png';
 import TypePill from '../PokemonTypes/TypePill';
 import style from './profileHeader.module.css';
 
 interface Props {
   pokemon: Pokemon;
+  shiny: boolean;
+  setShiny: Dispatch<SetStateAction<boolean>>;
   typeColor?: string;
 }
 
-export default function profileHeader({ pokemon, typeColor }: Props) {
+export default function profileHeader({ pokemon, shiny, setShiny, typeColor }: Props) {
+  const imageSrc = !shiny ? pokemon.spriteUrl ?? avatar.src : pokemon.shinySpriteUrl ?? avatar.src;
   return (
     <div className={style.profileHeader}>
       <div className={style.pfpContainer}>
+        <div className={style.pfpTopDecorations}>
+          <div className={style.topButton} />
+          <div className={style.topButton} />
+        </div>
         <img
-          src={pokemon.spriteUrl ?? avatar.src}
+          src={imageSrc}
           alt={pokemon.name}
           className={style.pfp}
           onError={(e) => (e.currentTarget.src = avatar.src)}
         />
+        <div className={style.pfpBottomDecorations}>
+          <div className={style.pfpBottomButtonContainer}>
+            <button className={style.pfpBottomButton} onClick={() => setShiny(!shiny)}>
+              <div className={style.star} />
+            </button>
+          </div>
+          <div className={style.pfpBottomMicContainer}>
+            <div className={style.speaker}>
+              <div className={style.line}></div>
+              <div className={style.line}></div>
+              <div className={style.line}></div>
+              <div className={style.line}></div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className={style.profileHeaderText}>
-        <h2>{capitalizeFirstLetterOfString(pokemon.name)}</h2>
+        {/* TODO: number is wrong with different forms */}
+        {/* TODO: add start next to name if shiny */}
+        <h5 style={{ color: 'grey', margin: '0px' }}>#000{pokemon.id}</h5>
+        <h2 style={{ margin: '0px' }}>{capitalizeFirstLetterOfString(pokemon.name)}</h2>
         <div style={{ display: 'flex' }}>
           {pokemon.types.map((type, index) => (
             <TypePill key={`type-${index + 1}`} type={type} />

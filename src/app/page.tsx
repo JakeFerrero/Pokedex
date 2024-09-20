@@ -25,6 +25,7 @@ export default function Home() {
 
   // form of pokemon
   const [pokemonForm, setPokemonForm] = useState<string | undefined>();
+  const [shiny, setShiny] = useState<boolean>(false);
 
   // region
   const [region, setRegion] = useState<Region>('Kanto');
@@ -60,9 +61,10 @@ export default function Home() {
     // only make the API call once a pokemon has been selected
     selectedPokemon &&
       (async () => {
-        // when the selected pokemon changes, reset details and form
+        // when the selected pokemon changes, reset details, form, and shininess
         setSelectedPokemonDetails(undefined);
         setPokemonForm(undefined);
+        setShiny(false);
         setProfileLoading(true);
         let details: Pokemon | undefined;
         try {
@@ -81,8 +83,9 @@ export default function Home() {
   useEffect(() => {
     selectedPokemon &&
       (async () => {
-        // when the pokemon form changes, reset details
+        // when the pokemon form changes, reset details and shininess
         setSelectedPokemonDetails(undefined);
+        setShiny(false);
         setProfileLoading(true);
         let details: Pokemon | undefined;
         try {
@@ -96,6 +99,7 @@ export default function Home() {
         setProfileLoading(false);
       })();
   }, [pokemonForm]);
+  // TODO: React hook useEffect has a missingDependancy: selectedPokemon
 
   return (
     <div>
@@ -116,6 +120,8 @@ export default function Home() {
           error={errorFetchingPokemonDetails}
           currentForm={pokemonForm}
           setForm={setPokemonForm}
+          shiny={shiny}
+          setShiny={setShiny}
         />
       </div>
     </div>

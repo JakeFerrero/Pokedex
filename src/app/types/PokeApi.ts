@@ -7,7 +7,7 @@ export interface GetPokemonResult {
   id: number;
   name: string;
   abilities: Ability[];
-  sprites: Sprite;
+  sprites: Sprites;
   types: Type[];
   stats: Stat[];
   height: number;
@@ -84,11 +84,13 @@ interface Type {
   };
 }
 
-interface Sprite {
+interface Sprites {
   front_default: string;
+  front_shiny: string;
   other: {
     'official-artwork': {
       front_default: string;
+      front_shiny: string;
     };
   };
 }

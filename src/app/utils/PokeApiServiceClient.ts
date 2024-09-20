@@ -23,6 +23,7 @@ interface GetPokemonDetails {
   abilities: string[];
   types: Type[];
   spriteUrl: string;
+  shinySpriteUrl: string;
   stats: Stats;
   height: number;
   weight: number;
@@ -116,6 +117,7 @@ export class PokeApiServiceClient {
       id: resp.id,
       name: capitalizeFirstLetterOfString(resp.name),
       spriteUrl: resp.sprites.other['official-artwork'].front_default,
+      shinySpriteUrl: resp.sprites.other['official-artwork'].front_shiny,
       abilities: resp.abilities.map((a) => a.ability.name) ?? [],
       types: resp.types.map((t) => t.type.name as Type) ?? [],
       stats: this.buildStats(resp.stats),

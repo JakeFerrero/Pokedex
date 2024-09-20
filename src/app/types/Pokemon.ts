@@ -9,6 +9,7 @@ export interface Pokemon {
   abilities: string[];
   types: Type[];
   spriteUrl: string;
+  shinySpriteUrl: string;
   eggGroups: string[];
   stats: Stats;
   height: number;

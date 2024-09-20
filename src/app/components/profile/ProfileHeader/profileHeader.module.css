@@ -10,22 +10,106 @@
 
 .pfpContainer {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 250px;
-  height: 250px;
-  padding: 1rem;
+  width: 256px;
+  height: 256px;
+  padding: 0 1rem;
   background-color: #edeee4;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%, 0 90%);
   box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.17);
 }
 
+.pfpTopDecorations, .pfpBottomDecorations {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.pfpTopDecorations {
+  justify-content: space-between;
+  gap: 1.75rem;
+}
+
+.topButton {
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  background-color: red;
+  border: 1px solid black;
+}
+
 .pfp {
+  flex: 1;
   height: 200px;
   width: 200px;
   background-color: #c9e4e6;
   border-radius: 8px;
   border: 1px solid black;
+}
+
+.pfpBottomDecorations {
+  flex: 2;
+  display: flex;
+  width: 200px; /* same as pfp for alignment */
+}
+
+.pfpBottomButtonContainer, .pfpBottomMicContainer {
+  display: flex;
+  width: 50%;
+  height: 100%;
+  padding: 0 1rem;
+  align-items: center;
+}
+
+.pfpBottomButtonContainer {
+  justify-content: left;
+}
+
+.pfpBottomButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: lightyellow;
+  border: 1px solid black;
+}
+
+.star {
+  width: 1rem;
+  height: 1rem;
+  background-color: gold;
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%,
+    50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+  );
+}
+
+.pfpBottomMicContainer {
+  flex: 1;
+  justify-content: right;
+}
+
+.speaker {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+}
+
+.line {
+  margin: 1px;
+  height: 2px;
+  width: 90%;
+  background-color: black;
+  border-radius: 10px;
 }
 
 .profileHeaderText {
