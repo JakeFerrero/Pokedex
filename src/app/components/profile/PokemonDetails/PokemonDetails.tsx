@@ -50,6 +50,7 @@ export default function PokemonDetails({ pokemon }: Props) {
           })}
         </div>
         <div>
+          {/* TODO: sanitize egg group names */}
           <b>{`Egg Group(s): `}</b>
           {pokemon.eggGroups.map((egg, index) => {
             return (
@@ -61,6 +62,7 @@ export default function PokemonDetails({ pokemon }: Props) {
           })}
         </div>
         <div>
+          {/* TODO: sanitize growth rate names and make a growth rate graph */}
           <b>Growth Rate:</b> {pokemon.growthRate}
         </div>
         <div>

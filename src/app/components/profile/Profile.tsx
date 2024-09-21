@@ -49,9 +49,8 @@ export default function Profile({ pokemon, loading, error, currentForm, setForm,
 
           {/* Profile Body */}
           <div className={style.depressedDiv}>
-            {pokemon.forms.length === 1 ? (
-              <></> // if there is only the default form, don't display the form section
-            ) : (
+            {/* TODO: still need to decide how I want to show a "change form" button... */}
+            {pokemon.forms.length > 1 && (
               <div>
                 <h4>Forms</h4>
                 <hr className={style.profileHr} />

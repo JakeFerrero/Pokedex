@@ -1,5 +1,5 @@
 # Pokedex
-A project that simulates functionality of a Pokedex.
+A web app that simulates the functionality of a Pokedex. Built using NextJS and Typescript.
 
 ## Setup
 1. Install NodeJS
@@ -20,13 +20,3 @@ npm run build && npm start
 ```
 
 Navigate to http://localhost:3000 to view the web application.
-
-## Testing
-
-Jest unit tests have been added for applicable React components to test their functionality.
-
-Run the unit tests using:
-
-```
-npm t
-```

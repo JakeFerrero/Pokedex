@@ -44,8 +44,6 @@ export default function PokemonList({ pokemon, setSelectedPokemon, selectedPokem
                 type="button"
                 className={`list-group-item list-group-item-action ${style.pokemonListItem}`}
                 onClick={() => setSelectedPokemon(mon.name)}
-                // using style here because I need to use a conditional on a pokemon's's attributes,
-                // which I cannot access in css
                 style={
                   mon.name === selectedPokemon
                     ? {
@@ -56,6 +54,7 @@ export default function PokemonList({ pokemon, setSelectedPokemon, selectedPokem
                 }
               >
                 No. {mon.id + ': '}
+                {/* TODO: Need to sanitize some pokemon names from the API - i.e. nidoran-m */}
                 {highlightMatchedText(capitalizeFirstLetterOfString(mon.name), searchTerm)}
               </button>
             );
