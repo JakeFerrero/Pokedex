@@ -5,9 +5,9 @@ interface Props {
   setSearchValue: Dispatch<SetStateAction<string>>;
 }
 
-export default function SearchFilterBox({ setSearchValue}: Props) {
+export default function SearchFilterBox({ setSearchValue }: Props) {
   return (
-    <div style={{flex: 0}}>
+    <div>
       {/* Search Bar */}
       <input
         className={`form-control ${style.searchBar}`}
@@ -16,10 +16,6 @@ export default function SearchFilterBox({ setSearchValue}: Props) {
         aria-label="Search"
         onChange={(e) => setSearchValue(e.currentTarget.value.toLowerCase())}
       />
-
-      {/* Filter */}
-      <div className={style.filterContainer}>
-      </div>
     </div>
   );
 }
