@@ -70,7 +70,7 @@ export default function Profile({ pokemon, loading, error, currentForm, setForm,
             )}
             <h4>Details</h4>
             <hr className={style.profileHr} />
-            <PokemonDetails pokemon={pokemon} />
+            <PokemonDetails pokemon={pokemon} typeColor={typeColor} />
             <h4>Stats</h4>
             <hr className={style.profileHr} />
             <StatsTable pokemon={pokemon} bgColor={typeColor} />

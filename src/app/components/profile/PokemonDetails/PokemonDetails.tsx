@@ -2,9 +2,11 @@ import { Pokemon } from '@/app/types/Pokemon';
 import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
 import style from './pokemonDetails.module.css';
 import GenderChart from './GenderChart';
+import ExperienceChart from './ExperienceChart';
 
 interface Props {
   pokemon: Pokemon;
+  typeColor: string | undefined;
 }
 
 function sanitizeAbilityName(abilityName: string) {
@@ -18,7 +20,7 @@ function sanitizeAbilityName(abilityName: string) {
   return sanitizedNames;
 }
 
-export default function PokemonDetails({ pokemon }: Props) {
+export default function PokemonDetails({ pokemon, typeColor }: Props) {
   return (
     <div className={style.detailsContainer}>
       <div className={style.detailsInfoBox}>
@@ -70,6 +72,7 @@ export default function PokemonDetails({ pokemon }: Props) {
         </div>
       </div>
       <GenderChart genderRate={pokemon.genderRate} />
+      <ExperienceChart growthRate={pokemon.growthRate} typeColor={typeColor ?? 'green'}/>
     </div>
   );
 }
