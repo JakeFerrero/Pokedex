@@ -1,8 +1,9 @@
 import { Pokemon } from '@/app/types/Pokemon';
 import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
-import style from './pokemonDetails.module.css';
-import GenderChart from './GenderChart';
+import { metersToFeetInches } from '@/app/utils/metersToFeetInches';
 import ExperienceChart from './ExperienceChart';
+import GenderChart from './GenderChart';
+import style from './pokemonDetails.module.css';
 
 interface Props {
   pokemon: Pokemon;
@@ -29,17 +30,17 @@ export default function PokemonDetails({ pokemon, typeColor }: Props) {
           {pokemon.genus}
         </div>
         <div>
-          <b>Height:</b> {pokemon.height} m
+          <b>Height:</b>
+          {` ${pokemon.height} m (${metersToFeetInches(pokemon.height)})`}
         </div>
         <div>
-          <b>Weight:</b> {pokemon.weight} kg
+          <b>Weight:</b>
+          {` ${pokemon.weight} kg (${(pokemon.weight / 2.2).toFixed(2)} lb)`}
         </div>
-        {pokemon.evolvesFrom ? (
-          <div>
-            <b>{`Evolves From: `}</b>
-            {capitalizeFirstLetterOfString(pokemon.evolvesFrom)}
-          </div>
-        ) : undefined}
+        <div>
+          <b>Capture Rate:</b>
+          {` ${pokemon.captureRate} (~${((pokemon.captureRate / 255) * 100).toFixed(1)}%)`}
+        </div>
         <div>
           <b>{`Abilities: `}</b>
           {pokemon.abilities.map((ability, index) => {
@@ -63,16 +64,15 @@ export default function PokemonDetails({ pokemon, typeColor }: Props) {
             );
           })}
         </div>
-        <div>
-          {/* TODO: sanitize growth rate names and make a growth rate graph */}
-          <b>Growth Rate:</b> {pokemon.growthRate}
-        </div>
-        <div>
-          <b>Capture Rate:</b> {pokemon.captureRate}
-        </div>
+        {pokemon.evolvesFrom ? (
+          <div>
+            <b>{`Evolves From: `}</b>
+            {capitalizeFirstLetterOfString(pokemon.evolvesFrom)}
+          </div>
+        ) : undefined}
       </div>
       <GenderChart genderRate={pokemon.genderRate} />
-      <ExperienceChart growthRate={pokemon.growthRate} typeColor={typeColor ?? 'green'}/>
+      <ExperienceChart growthRate={pokemon.growthRate} typeColor={typeColor ?? 'green'} />
     </div>
   );
 }

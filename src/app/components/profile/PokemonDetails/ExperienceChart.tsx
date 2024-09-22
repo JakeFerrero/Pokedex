@@ -31,8 +31,9 @@ export default function ExperienceChart({ typeColor, growthRate }: Props) {
 
   return (
     <div style={{ backgroundColor: 'white' }}>
+      {/* TODO: center and sanitize growth rate name */}
       <b>Growth Rate:</b> {growthRate}
-      <ResponsiveContainer width={400} height={300}>
+      <ResponsiveContainer width={300} height={250}>
         <LineChart data={data} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="x" label={{ value: 'Level', position: 'insideBottom', offset: -10 }} />
