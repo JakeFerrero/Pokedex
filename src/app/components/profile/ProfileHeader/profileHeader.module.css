@@ -112,15 +112,25 @@
   border-radius: 10px;
 }
 
-.profileHeaderText {
+.middleHeaderContainer {
   flex: 1;
+  margin-left: 1rem;
+}
+
+.headerButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileHeaderText {
   height: 200px;
   align-content: center;
   padding: 1rem;
   background-color: white;
   color: black;
-  margin-left: 1rem;
   border: 1px solid black;
+  margin-bottom: 12px;
 }
 
 .profileHeaderText p {

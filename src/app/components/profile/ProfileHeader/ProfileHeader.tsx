@@ -4,15 +4,18 @@ import avatar from '../../../../../public/avatar.png';
 import TypePill from '../PokemonTypes/TypePill';
 import style from './profileHeader.module.css';
 import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
+import FromChanger from './FormChanger';
 
 interface Props {
   pokemon: Pokemon;
   shiny: boolean;
   setShiny: Dispatch<SetStateAction<boolean>>;
+  currentForm: string | undefined;
+  setForm: Dispatch<SetStateAction<string | undefined>>;
   typeColor?: string;
 }
 
-export default function profileHeader({ pokemon, shiny, setShiny, typeColor }: Props) {
+export default function profileHeader({ pokemon, shiny, setShiny, typeColor, currentForm, setForm }: Props) {
   const imageSrc = !shiny ? pokemon.spriteUrl ?? avatar.src : pokemon.shinySpriteUrl ?? avatar.src;
   return (
     <div className={style.profileHeader}>
@@ -43,19 +46,24 @@ export default function profileHeader({ pokemon, shiny, setShiny, typeColor }: P
           </div>
         </div>
       </div>
-      <div className={style.profileHeaderText}>
-        {/* TODO: number is wrong with different forms */}
-        {/* TODO: add start next to name if shiny */}
-        <h5 style={{ color: 'grey', margin: '0px' }}>#000{pokemon.id}</h5>
-        <h2 style={{ margin: '0px' }}>{capitalizeFirstLetterOfString(pokemon.name)}</h2>
-        <div style={{ display: 'flex' }}>
-          {pokemon.types.map((type, index) => (
-            <TypePill key={`type-${index + 1}`} type={type} />
-          ))}
+      <div className={style.middleHeaderContainer}>
+        <div className={style.profileHeaderText}>
+          {/* TODO: number is wrong with different forms */}
+          {/* TODO: add start next to name if shiny */}
+          <h5 style={{ color: 'grey', margin: '0px' }}>#000{pokemon.id}</h5>
+          <h2 style={{ margin: '0px' }}>{capitalizeFirstLetterOfString(pokemon.name)}</h2>
+          <div style={{ display: 'flex' }}>
+            {pokemon.types.map((type, index) => (
+              <TypePill key={`type-${index + 1}`} type={type} />
+            ))}
+          </div>
+          <p>
+            <i>{pokemon.flavorText}</i>
+          </p>
         </div>
-        <p>
-          <i>{pokemon.flavorText}</i>
-        </p>
+        <div className={style.headerButtons}>
+          <FromChanger pokemon={pokemon} currentForm={currentForm} setForm={setForm} />
+        </div>
       </div>
       <div className={style.pokeballContainer}>
         <div className={style.pokeball} />

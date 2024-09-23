@@ -45,29 +45,17 @@ export default function Profile({ pokemon, loading, error, currentForm, setForm,
         // unique key is needed so this div with animation is redrawn every time the pokemon changes
         <div key={pokemon.id} className={style.fadeInRight}>
           {/* Profile Header */}
-          <ProfileHeader pokemon={pokemon} typeColor={typeColor} shiny={shiny} setShiny={setShiny} />
+          <ProfileHeader
+            pokemon={pokemon}
+            typeColor={typeColor}
+            shiny={shiny}
+            setShiny={setShiny}
+            currentForm={currentForm}
+            setForm={setForm}
+          />
 
           {/* Profile Body */}
           <div className={style.depressedDiv}>
-            {/* TODO: still need to decide how I want to show a "change form" button... */}
-            {pokemon.forms.length > 1 && (
-              <div>
-                <h4>Forms</h4>
-                <hr className={style.profileHr} />
-                <button
-                  id="formChanger"
-                  onClick={() => {
-                    // Poke API guarantees that there will always be one form,
-                    // the default form, which is just the pokemon's name
-                    let newFormIndex = pokemon.forms.indexOf(currentForm ?? pokemon.name.toLowerCase()) + 1;
-                    if (newFormIndex > pokemon.forms.length - 1) newFormIndex = 0;
-                    setForm(pokemon.forms[newFormIndex]);
-                  }}
-                >
-                  Change Forms
-                </button>
-              </div>
-            )}
             <h4>Details</h4>
             <hr className={style.profileHr} />
             <PokemonDetails pokemon={pokemon} typeColor={typeColor} />
