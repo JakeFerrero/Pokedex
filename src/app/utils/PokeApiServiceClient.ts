@@ -8,8 +8,8 @@ import {
 } from '../types/PokeApi';
 import { Pokemon, PokemonMetadata, Stats, Type } from '../types/Pokemon';
 import { Region } from '../types/Regions';
-import { capitalizeFirstLetterOfString } from './capitalizeFirstLetterOfString';
 import { PokemonCache } from './PokemonCache';
+import { capitalizeFirstLetterOfString } from './stringSanitization';
 
 const REGION_POKEMON_COUNT: Record<Region, number> = {
   Kanto: 151,

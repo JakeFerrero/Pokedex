@@ -1,5 +1,6 @@
 import { GROWTH_RATE_FUNCTION_MAP } from '@/app/utils/PokemonExperience';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import style from './pokemonDetails.module.css';
 
 interface Props {
   typeColor: string;
@@ -30,10 +31,9 @@ export default function ExperienceChart({ typeColor, growthRate }: Props) {
   const data = generateData(growthRate);
 
   return (
-    <div style={{ backgroundColor: 'white' }}>
-      {/* TODO: center and sanitize growth rate name */}
+    <div className={style.chartContainer}>
       <b>Growth Rate:</b> {growthRate}
-      <ResponsiveContainer width={300} height={250}>
+      <ResponsiveContainer width={350} height={250}>
         <LineChart data={data} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="x" label={{ value: 'Level', position: 'insideBottom', offset: -10 }} />

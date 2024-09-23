@@ -9,9 +9,17 @@
   gap: 1rem; /* The space between each item */
 }
 
-.detailsInfoBox {
+.detailsInfoBox, .chartContainer {
   background-color: white;
-  padding: .5rem;
+  padding: 1rem;
   width: fit-content;
   height: fit-content;
+}
+
+.detailsInfoBox p {
+  margin-bottom: 4px;
+}
+
+.chartContainer {
+  text-align: center;
 }

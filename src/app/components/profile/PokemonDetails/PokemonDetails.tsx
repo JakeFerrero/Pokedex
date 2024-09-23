@@ -1,6 +1,6 @@
 import { Pokemon } from '@/app/types/Pokemon';
-import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
 import { metersToFeetInches } from '@/app/utils/metersToFeetInches';
+import { capitalizeFirstLetterOfString, sanitizeAbilityName, sanitizeEggGroup } from '../../../utils/stringSanitization';
 import ExperienceChart from './ExperienceChart';
 import GenderChart from './GenderChart';
 import style from './pokemonDetails.module.css';
@@ -10,65 +10,53 @@ interface Props {
   typeColor: string | undefined;
 }
 
-function sanitizeAbilityName(abilityName: string) {
-  const sanitizedNames: string[] = [];
-  sanitizedNames.push(
-    abilityName
-      .split('-')
-      .map((s) => capitalizeFirstLetterOfString(s))
-      .join(' ')
-  );
-  return sanitizedNames;
-}
-
 export default function PokemonDetails({ pokemon, typeColor }: Props) {
   return (
     <div className={style.detailsContainer}>
       <div className={style.detailsInfoBox}>
-        <div>
+        <p>
           <b>{`Species: `}</b>
           {pokemon.genus}
-        </div>
-        <div>
+        </p>
+        <p>
           <b>Height:</b>
           {` ${pokemon.height} m (${metersToFeetInches(pokemon.height)})`}
-        </div>
-        <div>
+        </p>
+        <p>
           <b>Weight:</b>
           {` ${pokemon.weight} kg (${(pokemon.weight / 2.2).toFixed(2)} lb)`}
-        </div>
-        <div>
+        </p>
+        <p>
           <b>Capture Rate:</b>
           {` ${pokemon.captureRate} (~${((pokemon.captureRate / 255) * 100).toFixed(1)}%)`}
-        </div>
-        <div>
+        </p>
+        <p>
           <b>{`Abilities: `}</b>
           {pokemon.abilities.map((ability, index) => {
             return (
               <span key={`ability-${index}`}>
-                <>{sanitizeAbilityName(ability)}</>
+                {sanitizeAbilityName(ability)}
                 {index === pokemon.abilities.length - 1 ? '' : ', '}
               </span>
             );
           })}
-        </div>
-        <div>
-          {/* TODO: sanitize egg group names */}
+        </p>
+        <p>
           <b>{`Egg Group(s): `}</b>
           {pokemon.eggGroups.map((egg, index) => {
             return (
               <span key={`egg-group-${index}`}>
-                <>{egg}</>
+                {sanitizeEggGroup(egg)}
                 {index === pokemon.eggGroups.length - 1 ? '' : ', '}
               </span>
             );
           })}
-        </div>
+        </p>
         {pokemon.evolvesFrom ? (
-          <div>
+          <p>
             <b>{`Evolves From: `}</b>
             {capitalizeFirstLetterOfString(pokemon.evolvesFrom)}
-          </div>
+          </p>
         ) : undefined}
       </div>
       <GenderChart genderRate={pokemon.genderRate} />

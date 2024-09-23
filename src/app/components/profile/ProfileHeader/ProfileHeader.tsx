@@ -1,9 +1,9 @@
 import { Pokemon } from '@/app/types/Pokemon';
-import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
 import { Dispatch, SetStateAction } from 'react';
 import avatar from '../../../../../public/avatar.png';
 import TypePill from '../PokemonTypes/TypePill';
 import style from './profileHeader.module.css';
+import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
 
 interface Props {
   pokemon: Pokemon;

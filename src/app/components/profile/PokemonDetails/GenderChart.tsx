@@ -21,9 +21,9 @@ export default function GenderChart({ genderRate }: Props) {
         ];
 
   return (
-    <div className={style.detailsInfoBox} style={{ textAlign: 'center' }}>
+    <div className={style.chartContainer}>
       <b>Gender Ratio:</b>
-      <PieChart height={150} width={150}>
+      <PieChart height={160} width={160}>
         <Pie data={data} innerRadius={25} outerRadius={45} paddingAngle={1} dataKey="value">
           {data.map((entry, index) => (
             <Cell

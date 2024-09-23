@@ -2,8 +2,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import style from './directory.module.css';
 import NoPokemonFound from './NoPokemonFound';
-import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
 import { PokemonMetadata } from '@/app/types/Pokemon';
+import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
 
 interface Props {
   pokemon: PokemonMetadata[];

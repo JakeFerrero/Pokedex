@@ -1,7 +1,7 @@
 import { TYPE_COLOR_MAP } from "@/app/types/Colors";
 import { Type } from "@/app/types/Pokemon";
 import style from './typeEffectivenessPill.module.css'
-import { capitalizeFirstLetterOfString } from "@/app/utils/capitalizeFirstLetterOfString";
+import { capitalizeFirstLetterOfString } from "@/app/utils/stringSanitization";
 
 interface Props {
   type: Type;

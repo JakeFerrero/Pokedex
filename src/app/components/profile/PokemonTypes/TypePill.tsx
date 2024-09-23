@@ -1,6 +1,6 @@
 import { TYPE_COLOR_MAP } from '@/app/types/Colors';
 import style from './typePill.module.css';
-import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
+import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
 
 interface Props {
   type: string;

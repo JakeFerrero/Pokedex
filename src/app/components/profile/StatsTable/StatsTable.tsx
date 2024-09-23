@@ -1,7 +1,7 @@
 import { determineStatColor } from '@/app/types/Colors';
 import { Pokemon } from '@/app/types/Pokemon';
-import { capitalizeFirstLetterOfString } from '@/app/utils/capitalizeFirstLetterOfString';
 import style from './statsTable.module.css';
+import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
 
 interface Props {
   pokemon: Pokemon;
