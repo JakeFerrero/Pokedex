@@ -43,7 +43,7 @@ export default function Profile({ pokemon, loading, error, currentForm, setForm,
       ) : (
         // otherwise, show profile for selected pokemon
         // unique key is needed so this div with animation is redrawn every time the pokemon changes
-        <div key={pokemon.id} className={style.fadeInRight}>
+        <div key={pokemon.id}>
           {/* Profile Header */}
           <ProfileHeader
             pokemon={pokemon}

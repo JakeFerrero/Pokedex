@@ -21,7 +21,7 @@ export default function GenderChart({ genderRate }: Props) {
         ];
 
   return (
-    <div className={style.chartContainer}>
+    <div className={style.genderChartContainer}>
       <b>Gender Ratio:</b>
       <PieChart height={160} width={160}>
         <Pie data={data} innerRadius={25} outerRadius={45} paddingAngle={1} dataKey="value">
