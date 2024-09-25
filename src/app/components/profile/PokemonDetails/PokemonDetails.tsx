@@ -1,6 +1,6 @@
 import { Pokemon } from '@/app/types/Pokemon';
 import { metersToFeetInches } from '@/app/utils/metersToFeetInches';
-import { sanitizeStatName } from '@/app/utils/sanitizeStatName';
+import { sanitizeStatName } from '@/app/utils/stringSanitization';
 import {
   capitalizeFirstLetterOfString,
   sanitizeAbilityName,
@@ -89,7 +89,7 @@ export default function PokemonDetails({ pokemon, typeColor }: Props) {
           ) : undefined}
         </div>
         <GenderChart genderRate={pokemon.genderRate} />
-        <ExperienceChart growthRate={pokemon.growthRate} typeColor={typeColor ?? 'green'} />
+        <ExperienceChart growthRate={pokemon.growthRate} typeColor={typeColor ?? 'red'} />
       </div>
     </div>
   );

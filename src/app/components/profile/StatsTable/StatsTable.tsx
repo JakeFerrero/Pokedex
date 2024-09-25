@@ -1,7 +1,7 @@
 import { determineStatColor } from '@/app/types/Colors';
 import { Pokemon } from '@/app/types/Pokemon';
 import style from './statsTable.module.css';
-import { sanitizeStatName } from '@/app/utils/sanitizeStatName';
+import { sanitizeStatName } from '@/app/utils/stringSanitization';
 
 interface Props {
   pokemon: Pokemon;

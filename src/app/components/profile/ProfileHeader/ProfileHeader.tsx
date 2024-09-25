@@ -83,7 +83,6 @@ export default function profileHeader({ pokemon, shiny, setShiny, typeColor, cur
       <div className={style.pokeballContainer}>
         <div className={style.pokeball} />
       </div>
-      {/* TODO: Maybe d-pad that controls form and "speaker" lines on bottom right? */}
     </div>
   );
 }

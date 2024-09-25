@@ -28,3 +28,18 @@ export function sanitizeEggGroup(eggGroup: string): string {
       return capitalizeFirstLetterOfString(eggGroup);
   }
 }
+
+export function sanitizeStatName(name: string): string {
+  if (name === 'hp') return 'HP';
+  if (name === 'special-attack') return 'Sp. Atk';
+  if (name === 'special-defense') return 'Sp. Def';
+  return capitalizeFirstLetterOfString(name);
+}
+
+export function sanitizeGrowthRate(growthRate: string): string {
+  if (growthRate ==='medium-slow') return 'Medium Slow';
+  if (growthRate ==='medium') return 'Medium Fast';
+  if (growthRate ==='fast-then-very-slow') return 'Fluctuating';
+  if (growthRate ==='slow-then-very-fast') return 'Eratic';
+  return capitalizeFirstLetterOfString(growthRate);
+};
