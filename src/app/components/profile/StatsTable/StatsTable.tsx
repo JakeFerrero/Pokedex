@@ -1,18 +1,11 @@
 import { determineStatColor } from '@/app/types/Colors';
 import { Pokemon } from '@/app/types/Pokemon';
 import style from './statsTable.module.css';
-import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
+import { sanitizeStatName } from '@/app/utils/sanitizeStatName';
 
 interface Props {
   pokemon: Pokemon;
   bgColor?: string;
-}
-
-function sanitizeStatName(name: string): string {
-  if (name === 'hp') return 'HP';
-  if (name === 'special-attack') return 'Sp. Atk';
-  if (name === 'special-defense') return 'Sp. Def';
-  return capitalizeFirstLetterOfString(name);
 }
 
 export default function StatsTable({ pokemon, bgColor }: Props) {

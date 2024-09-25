@@ -33,7 +33,7 @@
 .expandableContainer,
 .expandableContainerOpen {
   max-width: 100%;
-  transition: max-height 1s ease;
+  transition: max-height .7s ease;
 }
 
 .expandableContainer {

@@ -29,6 +29,8 @@ export interface GetSpeciesResponse {
     url: string;
   };
   capture_rate: number;
+  hatch_counter: number;
+  base_happiness: number
   varieties: Variety[];
 }
 
@@ -58,7 +60,7 @@ export interface FlavorTextEntry {
 
 export interface Stat {
   base_stat: number;
-  effort: number;
+  effort: number; // ev yield
   stat: {
     name: 'hp' | 'attack' | 'defense' | 'special-attack' | 'special-defense' | 'speed';
     url: string;

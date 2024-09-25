@@ -1,5 +1,6 @@
 import { Pokemon } from '@/app/types/Pokemon';
 import { metersToFeetInches } from '@/app/utils/metersToFeetInches';
+import { sanitizeStatName } from '@/app/utils/sanitizeStatName';
 import {
   capitalizeFirstLetterOfString,
   sanitizeAbilityName,
@@ -13,6 +14,8 @@ interface Props {
   pokemon: Pokemon;
   typeColor: string | undefined;
 }
+
+const ONE_EGG_CYCLE = 257;
 
 export default function PokemonDetails({ pokemon, typeColor }: Props) {
   return (
@@ -53,6 +56,27 @@ export default function PokemonDetails({ pokemon, typeColor }: Props) {
                 <span key={`egg-group-${index}`}>
                   {sanitizeEggGroup(egg)}
                   {index === pokemon.eggGroups.length - 1 ? '' : ', '}
+                </span>
+              );
+            })}
+          </p>
+          <p>
+            <b>{`Egg Cycles: `}</b>
+            {`${pokemon.eggCycles} (~${pokemon.eggCycles * ONE_EGG_CYCLE} steps)`}
+          </p>
+          <p>
+            <b>{`Base Friendship: `}</b>
+            {pokemon.baseFriendship}
+          </p>
+          <p>
+            <b>{`EV Yield: `}</b>
+            {Object.entries(pokemon.evYield).map((entry, index) => {
+              const [stat, evYield] = entry;
+              return (
+                <span key={`ev-yield-${index}`}>
+                  {evYield > 0 ? evYield + ' ' + sanitizeStatName(stat) : ''}
+                  {/* TODO: for all of these details, if there is more than one, put them on another line but in the same column */}
+                  {evYield > 0 ? <br/> : ''}
                 </span>
               );
             })}

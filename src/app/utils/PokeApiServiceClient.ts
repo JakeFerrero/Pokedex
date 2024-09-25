@@ -27,6 +27,7 @@ interface GetPokemonDetails {
   stats: Stats;
   height: number;
   weight: number;
+  evYield: Stats;
 }
 
 interface GetSpeciesDetails {
@@ -35,6 +36,8 @@ interface GetSpeciesDetails {
   growthRate: string;
   captureRate: number;
   forms: string[];
+  eggCycles: number;
+  baseFriendship: number;
   genus?: string;
   evolvesFrom?: string;
   flavorText?: string;
@@ -113,6 +116,7 @@ export class PokeApiServiceClient {
   private async getPokemonDetailsByName(name: string): Promise<GetPokemonDetails> {
     const apiResponse = await fetch(this.baseUrl + `pokemon/${name}`);
     const resp: GetPokemonResult = await apiResponse.json();
+    const statsAndEvYield = this.buildStatsAndEvYield(resp.stats);
     return {
       id: resp.id,
       name: capitalizeFirstLetterOfString(resp.name),
@@ -120,18 +124,27 @@ export class PokeApiServiceClient {
       shinySpriteUrl: resp.sprites.other['official-artwork'].front_shiny,
       abilities: resp.abilities.map((a) => a.ability.name) ?? [],
       types: resp.types.map((t) => t.type.name as Type) ?? [],
-      stats: this.buildStats(resp.stats),
+      stats: statsAndEvYield.stats,
+      evYield: statsAndEvYield.evYield,
       height: resp.height / 10, // height from API is in decimeters, convert to m
       weight: resp.weight / 10 // weight from API is in hectograms, convert to kg
     };
   }
 
-  private buildStats(stats: Stat[]): Stats {
+  private buildStatsAndEvYield(stats: Stat[]): {
+    stats: Stats;
+    evYield: Stats;
+  } {
     let finalStats: Stats = {} as any;
+    let finalEvYield: Stats = {} as any;
     stats.forEach((stat: Stat) => {
       finalStats[stat.stat.name] = stat.base_stat;
+      finalEvYield[stat.stat.name] = stat.effort;
     });
-    return finalStats;
+    return {
+      stats: finalStats,
+      evYield: finalEvYield
+    };
   }
 
   private async getPokemonSpeciesByName(name: string): Promise<GetSpeciesDetails> {
@@ -145,7 +158,9 @@ export class PokeApiServiceClient {
       genderRate: (resp.gender_rate / 8) * 100, // API returns gender rate as a value out of 8
       growthRate: resp.growth_rate.name,
       captureRate: resp.capture_rate,
-      forms: resp.varieties.map((variety) => variety.pokemon.name)
+      forms: resp.varieties.map((variety) => variety.pokemon.name),
+      eggCycles: resp.hatch_counter,
+      baseFriendship: resp.base_happiness
     };
   }
 
