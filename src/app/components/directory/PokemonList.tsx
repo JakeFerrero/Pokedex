@@ -1,9 +1,9 @@
 'use client';
+import { PokemonMetadata } from '@/app/types/Pokemon';
+import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
 import { Dispatch, SetStateAction } from 'react';
 import style from './directory.module.css';
 import NoPokemonFound from './NoPokemonFound';
-import { PokemonMetadata } from '@/app/types/Pokemon';
-import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
 
 interface Props {
   pokemon: PokemonMetadata[];
@@ -47,7 +47,7 @@ export default function PokemonList({ pokemon, setSelectedPokemon, selectedPokem
                 style={
                   mon.name === selectedPokemon
                     ? {
-                        backgroundColor: 'green',
+                        backgroundColor: '#f5523b',
                         color: 'white'
                       }
                     : undefined

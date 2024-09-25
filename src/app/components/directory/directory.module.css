@@ -1,5 +1,6 @@
 /* ----- Directory ----- */
-.directory, .directorySpinnerContainer {
+.directory,
+.directorySpinnerContainer {
   width: 25%;
   min-width: 200px;
   max-width: 250px;
@@ -11,7 +12,7 @@
   border-bottom: 0px;
   display: flex;
   flex-direction: column;
-  background-color: #888888;
+  background-color: #9e9e9e;
 }
 
 .directorySpinnerContainer {
@@ -31,33 +32,35 @@
 
 .regionFilterContainer {
   padding: 1rem;
-  background-color: #888888;
+  background-color: #9e9e9e;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
 }
 
 /* ----- Pokemon List ----- */
-.pokemonList, .pokemonListItem {
-  border-radius: 0;
-}
-
 .pokemonList {
   overflow: auto;
 }
 
+.pokemonList,
 .pokemonListItem {
-  background-color: #888888;
+  border-radius: 0;
+}
+
+.pokemonListItem {
+  background-color: #9e9e9e;
   color: black;
   border: 0px;
   border-bottom: 1px solid black;
+  transition: background-color 0.2s linear;
 }
 
 .pokemonListItem:hover {
-  background-color: #282828;
+  background-color: #3f3f3f;
   color: white;
 }
 
 .noPokemonFound {
-  background-color: #888888;
+  background-color: #9e9e9e;
   padding: 8px 16px;
 }

@@ -19,30 +19,31 @@ export default function profileHeader({ pokemon, shiny, setShiny, typeColor, cur
   const imageSrc = !shiny ? pokemon.spriteUrl ?? avatar.src : pokemon.shinySpriteUrl ?? avatar.src;
   return (
     <div className={style.profileHeader}>
-      <div className={style.pfpContainer}>
-        <div className={style.pfpTopDecorations}>
-          <div className={style.topButton} />
-          <div className={style.topButton} />
-        </div>
-        <img
-          src={imageSrc}
-          alt={pokemon.name}
-          className={style.pfp}
-          onError={(e) => (e.currentTarget.src = avatar.src)}
-        />
-        <div className={style.pfpBottomDecorations}>
-          <div className={style.pfpBottomButtonContainer}>
-            <button className={style.pfpBottomButton}>
-              <div className={style.star} />
-            </button>
+      {/* Wrapper here for shadow because pfpContainer uses clip-path */}
+      <div className={style.pfpContainerWrapper}> 
+        <div className={style.pfpContainer}>
+          <div className={style.pfpTopDecorations}>
+            <div className={style.topButton} />
+            <div className={style.topButton} />
           </div>
-          {/* TODO: make all of these complicated decorations modules */}
-          <div className={style.pfpBottomMicContainer}>
-            <div className={style.speaker}>
-              <div className={style.line}></div>
-              <div className={style.line}></div>
-              <div className={style.line}></div>
-              <div className={style.line}></div>
+          <img
+            src={imageSrc}
+            alt={pokemon.name}
+            className={style.pfp}
+            onError={(e) => (e.currentTarget.src = avatar.src)}
+          />
+          <div className={style.pfpBottomDecorations}>
+            <div className={style.pfpBottomButtonContainer}>
+              <button className={style.pfpBottomButton} />
+            </div>
+            {/* TODO: make all of these complicated decorations modules */}
+            <div className={style.pfpBottomMicContainer}>
+              <div className={style.speaker}>
+                <div className={style.line}></div>
+                <div className={style.line}></div>
+                <div className={style.line}></div>
+                <div className={style.line}></div>
+              </div>
             </div>
           </div>
         </div>
@@ -50,9 +51,11 @@ export default function profileHeader({ pokemon, shiny, setShiny, typeColor, cur
       <div className={style.middleHeaderContainer}>
         <div className={style.profileHeaderText}>
           {/* TODO: number is wrong with different forms */}
-          {/* TODO: add start next to name if shiny */}
           <h5 style={{ color: 'grey', margin: '0px' }}>#000{pokemon.id}</h5>
-          <h2 style={{ margin: '0px' }}>{capitalizeFirstLetterOfString(pokemon.name)}</h2>
+          <div className={style.headerNameContainer}>
+            <h2>{capitalizeFirstLetterOfString(pokemon.name)}</h2>
+            {shiny && <div className={style.star}></div>}
+          </div>
           <div style={{ display: 'flex' }}>
             {pokemon.types.map((type, index) => (
               <TypePill key={`type-${index + 1}`} type={type} />
@@ -74,7 +77,7 @@ export default function profileHeader({ pokemon, shiny, setShiny, typeColor, cur
             }}
             disabled={pokemon.forms.length <= 1 ? true : false}
           />
-          <HeaderButton label={'Shiny ★'} onClick={() => setShiny(!shiny)} />
+          <HeaderButton label={'Shiny'} onClick={() => setShiny(!shiny)} />
         </div>
       </div>
       <div className={style.pokeballContainer}>
