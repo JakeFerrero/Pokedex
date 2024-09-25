@@ -3,7 +3,8 @@ import ErrorTriangle from '@/app/components/utils/ErrorTriangle';
 import { TYPE_COLOR_MAP } from '@/app/types/Colors';
 import { Pokemon } from '@/app/types/Pokemon';
 import { calculateTypeWeaknesses } from '@/app/utils/calculateTypeWeaknesses';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import ExpandableDivHeader from '../utils/ExpandableDivHeader';
 import LoadingSpinner from '../utils/LoadingSpinner';
 import PokemonDetails from './PokemonDetails/PokemonDetails';
 import TypeEffectiveness from './PokemonTypes/TypeEffectiveness';
@@ -23,6 +24,8 @@ interface Props {
 }
 
 export default function Profile({ pokemon, loading, error, currentForm, setForm, shiny, setShiny }: Props) {
+  const [isExpanded, setIsExpanded] = useState(true);
+
   let typeColor: string | undefined;
   if (pokemon) typeColor = TYPE_COLOR_MAP[pokemon.types[0]];
 
@@ -56,9 +59,14 @@ export default function Profile({ pokemon, loading, error, currentForm, setForm,
 
           {/* Profile Body */}
           <div className={style.depressedDiv}>
-            <h4>Details</h4>
-            <hr className={style.profileHr} />
-            <PokemonDetails pokemon={pokemon} typeColor={typeColor} />
+            <div>
+              <ExpandableDivHeader label="Details" isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+              <div className={`${style.expandableContainer} ${isExpanded ? style.expandableContainerOpen : ''}`}>
+                <PokemonDetails pokemon={pokemon} typeColor={typeColor} />
+              </div>
+              <div className={style.expandableContainerBottom} />
+            </div>
+
             <h4>Stats</h4>
             <hr className={style.profileHr} />
             <StatsTable pokemon={pokemon} bgColor={typeColor} />

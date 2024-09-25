@@ -1,7 +1,6 @@
 /* ----- Details ----- */
 .detailsContainer {
   background-color: #252525;
-  border-radius: 8px;
 }
 
 .detailsContainer, .detailsBox {
@@ -13,8 +12,6 @@
 
 .detailsBox {
   background-color: #c9e4e6;
-  /* justify-content: space-between;
-  gap: 2rem; */
 }
 
 .textContainer {
