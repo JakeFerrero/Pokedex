@@ -1,10 +1,10 @@
 import { Pokemon } from '@/app/types/Pokemon';
+import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
 import { Dispatch, SetStateAction } from 'react';
 import avatar from '../../../../../public/avatar.png';
 import TypePill from '../PokemonTypes/TypePill';
+import HeaderButton from './HeaderButton';
 import style from './profileHeader.module.css';
-import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
-import FromChanger from './FormChanger';
 
 interface Props {
   pokemon: Pokemon;
@@ -32,10 +32,11 @@ export default function profileHeader({ pokemon, shiny, setShiny, typeColor, cur
         />
         <div className={style.pfpBottomDecorations}>
           <div className={style.pfpBottomButtonContainer}>
-            <button className={style.pfpBottomButton} onClick={() => setShiny(!shiny)}>
+            <button className={style.pfpBottomButton}>
               <div className={style.star} />
             </button>
           </div>
+          {/* TODO: make all of these complicated decorations modules */}
           <div className={style.pfpBottomMicContainer}>
             <div className={style.speaker}>
               <div className={style.line}></div>
@@ -62,13 +63,24 @@ export default function profileHeader({ pokemon, shiny, setShiny, typeColor, cur
           </p>
         </div>
         <div className={style.headerButtons}>
-          <FromChanger pokemon={pokemon} currentForm={currentForm} setForm={setForm} />
+          <HeaderButton
+            label={'Form'}
+            onClick={() => {
+              // Poke API guarantees that there will always be one form,
+              // the default form, which is just the pokemon's name
+              let newFormIndex = pokemon.forms.indexOf(currentForm ?? pokemon.name.toLowerCase()) + 1;
+              if (newFormIndex > pokemon.forms.length - 1) newFormIndex = 0;
+              setForm(pokemon.forms[newFormIndex]);
+            }}
+            disabled={pokemon.forms.length <= 1 ? true : false}
+          />
+          <HeaderButton label={'Shiny ★'} onClick={() => setShiny(!shiny)} />
         </div>
       </div>
       <div className={style.pokeballContainer}>
         <div className={style.pokeball} />
       </div>
-      {/* Maybe d-pad that controls form and "speaker" lines on bottom right */}
+      {/* TODO: Maybe d-pad that controls form and "speaker" lines on bottom right? */}
     </div>
   );
 }

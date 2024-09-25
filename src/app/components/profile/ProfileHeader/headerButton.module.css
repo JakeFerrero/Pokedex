@@ -1,0 +1,9 @@
+.headerButton {
+  width: fit-content;
+  min-width: 64px;
+  font-size: 12px;
+  padding: 2px 8px;
+  margin: 0 .5rem;
+  border-radius: 1rem;
+  background-color: lightgray;
+}
