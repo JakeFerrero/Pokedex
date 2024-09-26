@@ -21,6 +21,7 @@ export interface Pokemon {
   eggCycles: number;
   baseFriendship: number;
   evYield: Stats;
+  cry: string;
   genus?: string;
   evolvesFrom?: string;
   flavorText?: string;

@@ -29,6 +29,7 @@ interface GetPokemonDetails {
   height: number;
   weight: number;
   evYield: Stats;
+  cry: string;
 }
 
 interface GetSpeciesDetails {
@@ -133,6 +134,7 @@ export class PokeApiServiceClient {
       types: resp.types.map((t) => t.type.name as Type) ?? [],
       stats: statsAndEvYield.stats,
       evYield: statsAndEvYield.evYield,
+      cry: resp.cries.latest,
       height: resp.height / 10, // height from API is in decimeters, convert to m
       weight: resp.weight / 10 // weight from API is in hectograms, convert to kg
     };

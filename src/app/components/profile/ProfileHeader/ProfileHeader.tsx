@@ -1,6 +1,6 @@
 import { Pokemon } from '@/app/types/Pokemon';
 import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import avatar from '../../../../../public/avatar.png';
 import TypePill from '../PokemonTypes/TypePill';
 import HeaderButton from './HeaderButton';
@@ -15,8 +15,15 @@ interface Props {
   typeColor?: string;
 }
 
-export default function profileHeader({ pokemon, shiny, setShiny, typeColor, currentForm, setForm }: Props) {
+export default function ProfileHeader({ pokemon, shiny, setShiny, typeColor, currentForm, setForm }: Props) {
+  const [playing, setPlaying] = useState(false);
+  const audio = new Audio(pokemon.cry);
+  const playAudio = () => {
+    setPlaying(!playing);
+    audio.play();
+  }
   const imageSrc = !shiny ? pokemon.spriteUrl ?? avatar.src : pokemon.shinySpriteUrl ?? avatar.src;
+  
   return (
     <div className={style.profileHeader}>
       {/* Wrapper here for shadow because pfpContainer uses clip-path */}
@@ -78,6 +85,7 @@ export default function profileHeader({ pokemon, shiny, setShiny, typeColor, cur
             disabled={pokemon.forms.length <= 1 ? true : false}
           />
           <HeaderButton label={'Shiny'} onClick={() => setShiny(!shiny)} />
+          <HeaderButton label={'Cry'} onClick={playAudio} />
         </div>
       </div>
       <div className={style.pokeballContainer}>

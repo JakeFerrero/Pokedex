@@ -12,6 +12,9 @@ export interface GetPokemonResult {
   stats: Stat[];
   height: number;
   weight: number;
+  cries: {
+    latest: string; // cry url
+  }
 }
 
 export interface GetSpeciesResponse {

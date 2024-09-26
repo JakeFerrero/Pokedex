@@ -76,7 +76,7 @@ export default function PokemonDetails({ pokemon, typeColor }: Props) {
                 <span key={`ev-yield-${index}`}>
                   {evYield > 0 ? evYield + ' ' + sanitizeStatName(stat) : ''}
                   {/* TODO: for all of these details, if there is more than one, put them on another line but in the same column */}
-                  {evYield > 0 ? <br/> : ''}
+                  {evYield > 0 ? <br /> : ''}
                 </span>
               );
             })}
