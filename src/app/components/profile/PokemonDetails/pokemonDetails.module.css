@@ -11,7 +11,7 @@
 }
 
 .detailsBox {
-  background-color: #E5F9FF;
+  background: linear-gradient(to bottom right, white, #e5f9ff, #e5f9ff, white);
 }
 
 .textContainer {

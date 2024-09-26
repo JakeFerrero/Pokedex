@@ -5,6 +5,7 @@ import avatar from '../../../../../public/avatar.png';
 import TypePill from '../PokemonTypes/TypePill';
 import HeaderButton from './HeaderButton';
 import style from './profileHeader.module.css';
+import { TYPE_COLOR_MAP } from '@/app/types/Colors';
 
 interface Props {
   pokemon: Pokemon;
@@ -17,13 +18,13 @@ interface Props {
 
 export default function ProfileHeader({ pokemon, shiny, setShiny, typeColor, currentForm, setForm }: Props) {
   const [playing, setPlaying] = useState(false);
-  const audio = new Audio(pokemon.cry);
+  const cry = new Audio(pokemon.cry);
   const playAudio = () => {
     setPlaying(!playing);
-    audio.play();
-  }
+    cry.play();
+  };
   const imageSrc = !shiny ? pokemon.spriteUrl ?? avatar.src : pokemon.shinySpriteUrl ?? avatar.src;
-  
+
   return (
     <div className={style.profileHeader}>
       {/* Wrapper here for shadow because pfpContainer uses clip-path */}
@@ -56,7 +57,16 @@ export default function ProfileHeader({ pokemon, shiny, setShiny, typeColor, cur
         </div>
       </div>
       <div className={style.middleHeaderContainer}>
-        <div className={style.profileHeaderText}>
+        <div
+          className={style.profileHeaderText}
+          style={{
+            // set glowing border the color of pokemon's types
+            border: 'double 3px transparent',
+            backgroundImage: `linear-gradient(to bottom right, #e5f9ff, white, #e5f9ff), linear-gradient(to bottom right, ${TYPE_COLOR_MAP[pokemon.types[0]]}, ${pokemon.types.length > 1 ? TYPE_COLOR_MAP[pokemon.types[1]] : TYPE_COLOR_MAP[pokemon.types[0]]})`,
+            backgroundOrigin: 'border-box',
+            backgroundClip: 'padding-box, border-box'
+          }}
+        >
           {/* TODO: number is wrong with different forms, also make function to create correct num zeroes */}
           <h5 style={{ color: 'grey', margin: '0px' }}>#000{pokemon.id}</h5>
           <div className={style.headerNameContainer}>
@@ -65,7 +75,9 @@ export default function ProfileHeader({ pokemon, shiny, setShiny, typeColor, cur
           </div>
           <div style={{ display: 'flex' }}>
             {pokemon.typeIconUrls
-              ? pokemon.typeIconUrls.map((url, index) => <img src={url} alt={`type-${index}`} key={`type-${index}`} className={style.headerTypeIcon} />)
+              ? pokemon.typeIconUrls.map((url, index) => (
+                  <img src={url} alt={`type-${index}`} key={`type-${index}`} className={style.headerTypeIcon} />
+                ))
               : pokemon.types.map((type, index) => <TypePill key={`type-${index + 1}`} type={type} />)}
           </div>
           <p>

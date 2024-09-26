@@ -49,7 +49,7 @@
   flex: 1;
   height: 200px;
   width: 200px;
-  background-color: #e5f9ff;
+  background: linear-gradient(to bottom right, white, #e5f9ff, white);
   border-radius: 8px;
   border: 1px solid black;
 }
@@ -103,7 +103,7 @@
 .headerTypeIcon {
   width: 100px;
   height: 22px;
-  margin-right: .25rem;
+  margin-right: 0.25rem;
 }
 
 .pfpBottomMicContainer {
@@ -147,7 +147,6 @@
   padding: 1rem;
   background-color: #e5f9ff;
   color: black;
-  border: 1px solid black;
 }
 
 .profileHeaderText p,
