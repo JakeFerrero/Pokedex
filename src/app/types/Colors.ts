@@ -16,7 +16,8 @@ export const TYPE_COLOR_MAP: Record<string, string> = {
   dragon: '#6F35FC',
   dark: '#705746',
   steel: '#B7B7CE',
-  fairy: '#D685AD'
+  fairy: '#D685AD',
+  none: '#252525'
 };
 
 export function determineStatColor(statName: string, responsibility: string = 'bar'): string {

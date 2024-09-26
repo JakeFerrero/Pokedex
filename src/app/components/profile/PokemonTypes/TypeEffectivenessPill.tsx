@@ -1,11 +1,11 @@
-import { TYPE_COLOR_MAP } from "@/app/types/Colors";
-import { Type } from "@/app/types/Pokemon";
-import style from './typeEffectivenessPill.module.css'
-import { capitalizeFirstLetterOfString } from "@/app/utils/stringSanitization";
+import { TYPE_COLOR_MAP } from '@/app/types/Colors';
+import { Type } from '@/app/types/Pokemon';
+import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
+import style from './typeEffectivenessPill.module.css';
 
 interface Props {
   type: Type;
-  effectiveness: number;
+  effectiveness?: number;
 }
 
 function determineEffectivenessText(effectiveness: number): string {
@@ -22,7 +22,9 @@ export default function TypeEffectivenessPill({ type, effectiveness }: Props) {
         backgroundColor: TYPE_COLOR_MAP[type]
       }}
     >
-      <div className={style.effectivenessBubble}>{`${determineEffectivenessText(effectiveness)}x`}</div>
+      {(effectiveness || effectiveness === 0) && (
+        <div className={style.effectivenessBubble}>{`${determineEffectivenessText(effectiveness)}x`}</div>
+      )}
       <div className={style.typeText}>{capitalizeFirstLetterOfString(type)}</div>
     </div>
   );

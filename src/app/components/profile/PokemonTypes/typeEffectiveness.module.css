@@ -19,13 +19,20 @@
   align-items: center;
 }
 
-.typeEffectivenessTextContainer {
+.typeEffectivenessTextContainer, .noneText {
   text-align: center;
-  font-weight: bold;
   font-size: 14px;
-  width: 100px;
   padding: 4px;
   flex-shrink: 0; /* Prevent shrinking */
+}
+
+.typeEffectivenessTextContainer {
+  font-weight: bold;
+  width: 100px;
+}
+
+.noneText {
+  width: fit-content;
 }
 
 .typeEffectivenessPillsContainer {

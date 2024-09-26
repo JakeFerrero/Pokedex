@@ -53,4 +53,5 @@ export type Type =
   | 'dragon'
   | 'dark'
   | 'steel'
-  | 'fairy';
+  | 'fairy'
+  | 'none';
