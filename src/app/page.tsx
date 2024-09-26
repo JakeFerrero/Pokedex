@@ -74,6 +74,20 @@ export default function Home() {
           console.error('Could not fetch information for selected Pokemon.', error);
           setErrorFetchingPokemonDetails(true);
         }
+
+        let typeIconUrls: string[] = [];
+        if (details) {
+          for (const type of details.types) {
+            try {
+              const typeUrl = await client.getTypeIconUrl(type);
+              typeIconUrls.push(typeUrl);
+            } catch (error) {
+              console.warn('Could not fetch type icon URL for selected Pokemon.', error);
+            }
+          }
+          if (typeIconUrls.length) details.typeIconUrls = typeIconUrls;
+        }
+
         setSelectedPokemonDetails(details);
         setProfileLoading(false);
       })();
@@ -95,6 +109,20 @@ export default function Home() {
           console.error('Could not fetch information for selected Pokemon.', error);
           setErrorFetchingPokemonDetails(true);
         }
+
+        let typeIconUrls: string[] = [];
+        if (details) {
+          for (const type of details.types) {
+            try {
+              const typeUrl = await client.getTypeIconUrl(type);
+              typeIconUrls.push(typeUrl);
+            } catch (error) {
+              console.warn('Could not fetch type icon URL for selected Pokemon.', error);
+            }
+          }
+          if (typeIconUrls.length) details.typeIconUrls = typeIconUrls;
+        }
+
         setSelectedPokemonDetails(details);
         setProfileLoading(false);
       })();

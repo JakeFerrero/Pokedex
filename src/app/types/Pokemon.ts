@@ -24,6 +24,7 @@ export interface Pokemon {
   genus?: string;
   evolvesFrom?: string;
   flavorText?: string;
+  typeIconUrls?: string[];
 }
 
 export interface Stats {

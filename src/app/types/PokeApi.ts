@@ -34,6 +34,17 @@ export interface GetSpeciesResponse {
   varieties: Variety[];
 }
 
+export interface GetTypeResponse {
+  id: number;
+  sprites: {
+    [generation: string]: {
+      [game: string]: {
+        name_icon: string; // value = type image url
+      }
+    }
+  }
+}
+
 interface Variety {
   is_default: boolean;
   pokemon: {

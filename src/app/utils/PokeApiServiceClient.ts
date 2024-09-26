@@ -3,6 +3,7 @@ import {
   Genera,
   GetPokemonResult,
   GetSpeciesResponse,
+  GetTypeResponse,
   ListPokemonResult,
   Stat
 } from '../types/PokeApi';
@@ -111,6 +112,12 @@ export class PokeApiServiceClient {
     if (this.cache) this.setPokemonInCache(form ?? name, pokemon);
 
     return pokemon;
+  }
+
+  async getTypeIconUrl(type: string) {
+    const apiResponse = await fetch(this.baseUrl + `type/${type}`);
+    const typeResp: GetTypeResponse = await apiResponse.json();
+    return typeResp.sprites['generation-viii']['sword-shield'].name_icon;
   }
 
   private async getPokemonDetailsByName(name: string): Promise<GetPokemonDetails> {

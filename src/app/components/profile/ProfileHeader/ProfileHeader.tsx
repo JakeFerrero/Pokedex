@@ -20,7 +20,7 @@ export default function profileHeader({ pokemon, shiny, setShiny, typeColor, cur
   return (
     <div className={style.profileHeader}>
       {/* Wrapper here for shadow because pfpContainer uses clip-path */}
-      <div className={style.pfpContainerWrapper}> 
+      <div className={style.pfpContainerWrapper}>
         <div className={style.pfpContainer}>
           <div className={style.pfpTopDecorations}>
             <div className={style.topButton} />
@@ -50,16 +50,16 @@ export default function profileHeader({ pokemon, shiny, setShiny, typeColor, cur
       </div>
       <div className={style.middleHeaderContainer}>
         <div className={style.profileHeaderText}>
-          {/* TODO: number is wrong with different forms */}
+          {/* TODO: number is wrong with different forms, also make function to create correct num zeroes */}
           <h5 style={{ color: 'grey', margin: '0px' }}>#000{pokemon.id}</h5>
           <div className={style.headerNameContainer}>
             <h2>{capitalizeFirstLetterOfString(pokemon.name)}</h2>
             {shiny && <div className={style.star}></div>}
           </div>
           <div style={{ display: 'flex' }}>
-            {pokemon.types.map((type, index) => (
-              <TypePill key={`type-${index + 1}`} type={type} />
-            ))}
+            {pokemon.typeIconUrls
+              ? pokemon.typeIconUrls.map((url, index) => <img src={url} alt={`type-${index}`} key={`type-${index}`} className={style.headerTypeIcon} />)
+              : pokemon.types.map((type, index) => <TypePill key={`type-${index + 1}`} type={type} />)}
           </div>
           <p>
             <i>{pokemon.flavorText}</i>
