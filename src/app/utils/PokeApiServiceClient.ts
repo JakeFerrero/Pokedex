@@ -15,7 +15,8 @@ import { capitalizeFirstLetterOfString } from './stringSanitization';
 const REGION_POKEMON_COUNT: Record<Region, number> = {
   Kanto: 151,
   Johto: 100,
-  Hoenn: 135
+  Hoenn: 135,
+  Sinnoh: 107
 };
 
 interface GetPokemonDetails {

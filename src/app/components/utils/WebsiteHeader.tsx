@@ -2,7 +2,7 @@ import { Region } from '@/app/types/Regions';
 import { Dispatch, SetStateAction } from 'react';
 import style from './websiteHeader.module.css';
 
-const regions: Region[] = ['Kanto', 'Johto', 'Hoenn'];
+const regions: Region[] = ['Kanto', 'Johto', 'Hoenn', 'Sinnoh'];
 
 interface Props {
   selectedRegion: Region;

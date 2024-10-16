@@ -1,1 +1,1 @@
-export type Region = 'Kanto' | 'Johto' | 'Hoenn';
+export type Region = 'Kanto' | 'Johto' | 'Hoenn' | 'Sinnoh';

@@ -97,8 +97,7 @@ export default function Home() {
   useEffect(() => {
     selectedPokemon &&
       (async () => {
-        // when the pokemon form changes, reset details and shininess
-        setSelectedPokemonDetails(undefined);
+        // when the pokemon form changes, reset shininess
         setShiny(false);
         setProfileLoading(true);
         let details: Pokemon | undefined;
