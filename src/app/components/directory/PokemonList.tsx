@@ -7,10 +7,10 @@ import NoPokemonFound from './NoPokemonFound';
 
 interface Props {
   pokemon: PokemonMetadata[];
-  setSelectedPokemon: Dispatch<SetStateAction<string | undefined>>;
+  selectedPokemonId: number | undefined;
+  setSelectedPokemonId: Dispatch<SetStateAction<number | undefined>>;
   searchTerm: string;
   loading: boolean;
-  selectedPokemon?: string;
 }
 
 /**
@@ -29,7 +29,7 @@ function highlightMatchedText(name: string, searchTerm: string) {
   );
 }
 
-export default function PokemonList({ pokemon, setSelectedPokemon, selectedPokemon, loading, searchTerm }: Props) {
+export default function PokemonList({ pokemon, setSelectedPokemonId, selectedPokemonId, loading, searchTerm }: Props) {
   return (
     <div className={`list-group ${style.pokemonList}`}>
       {!loading && !pokemon.length ? (
@@ -43,9 +43,9 @@ export default function PokemonList({ pokemon, setSelectedPokemon, selectedPokem
                 key={mon.id}
                 type="button"
                 className={`list-group-item list-group-item-action ${style.pokemonListItem}`}
-                onClick={() => setSelectedPokemon(mon.name)}
+                onClick={() => setSelectedPokemonId(mon.id)}
                 style={
-                  mon.name === selectedPokemon
+                  mon.id === selectedPokemonId
                     ? {
                         backgroundColor: '#f5523b',
                         color: 'white'

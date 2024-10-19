@@ -1,13 +1,14 @@
 import {
   FlavorTextEntry,
   Genera,
+  GetFormResult,
   GetPokemonResult,
   GetSpeciesResponse,
   GetTypeResponse,
   ListPokemonResult,
   Stat
 } from '../types/PokeApi';
-import { Pokemon, PokemonMetadata, Stats, Type } from '../types/Pokemon';
+import { Pokemon, PokemonDetails, PokemonMetadata, PokemonSpecies, Stats, Type } from '../types/Pokemon';
 import { Region } from '../types/Regions';
 import { PokemonCache } from './PokemonCache';
 import { capitalizeFirstLetterOfString } from './stringSanitization';
@@ -18,33 +19,6 @@ const REGION_POKEMON_COUNT: Record<Region, number> = {
   Hoenn: 135,
   Sinnoh: 107
 };
-
-interface GetPokemonDetails {
-  id: number;
-  name: string;
-  abilities: string[];
-  types: Type[];
-  spriteUrl: string;
-  shinySpriteUrl: string;
-  stats: Stats;
-  height: number;
-  weight: number;
-  evYield: Stats;
-  cry: string;
-}
-
-interface GetSpeciesDetails {
-  eggGroups: string[];
-  genderRate: number;
-  growthRate: string;
-  captureRate: number;
-  forms: string[];
-  eggCycles: number;
-  baseFriendship: number;
-  genus?: string;
-  evolvesFrom?: string;
-  flavorText?: string;
-}
 
 /**
  * The url syntax that is returned from the Poke API has the pokemon's number/id
@@ -73,7 +47,7 @@ export class PokeApiServiceClient {
     this.cache = cache;
   }
 
-  async getPokemonByRegion(region: Region): Promise<PokemonMetadata[]> {
+  async getPokemonListByRegion(region: Region): Promise<PokemonMetadata[]> {
     const count = REGION_POKEMON_COUNT[region];
 
     function buildOffset(targetRegion: Region): number {
@@ -98,23 +72,23 @@ export class PokeApiServiceClient {
     );
   }
 
-  async getPokemonByName(name: string, form?: string): Promise<Pokemon> {
-    if (this.cache) {
-      const cachedDetails = this.getPokemonFromCache(form ?? name);
-      if (cachedDetails) return cachedDetails;
-    }
+  // async getPokemonByName(name: string, form?: string): Promise<Pokemon> {
+  //   if (this.cache) {
+  //     const cachedDetails = this.getPokemonFromCache(form ?? name);
+  //     if (cachedDetails) return cachedDetails;
+  //   }
 
-    const pokemonDetails = await this.getPokemonDetailsByName(form ?? name);
-    const speciesDetails = await this.getPokemonSpeciesByName(name);
-    const pokemon = {
-      ...pokemonDetails,
-      ...speciesDetails
-    };
+  //   const pokemonDetails = await this.getPokemonDetailsByName(form ?? name);
+  //   const speciesDetails = await this.getPokemonSpeciesByName(name);
+  //   const pokemon = {
+  //     ...pokemonDetails,
+  //     ...speciesDetails
+  //   };
 
-    if (this.cache) this.setPokemonInCache(form ?? name, pokemon);
+  //   if (this.cache) this.setPokemonInCache(form ?? name, pokemon);
 
-    return pokemon;
-  }
+  //   return pokemon;
+  // }
 
   async getTypeIconUrl(type: string) {
     const apiResponse = await fetch(this.baseUrl + `type/${type}`);
@@ -122,12 +96,15 @@ export class PokeApiServiceClient {
     return typeResp.sprites['generation-viii']['sword-shield'].name_icon;
   }
 
-  private async getPokemonDetailsByName(name: string): Promise<GetPokemonDetails> {
-    const apiResponse = await fetch(this.baseUrl + `pokemon/${name}`);
+  // --- TODO: new ---
+
+  async getPokemonDetailsByNameOrId(id: string): Promise<PokemonDetails> {
+    const apiResponse = await fetch(this.baseUrl + `pokemon/${id}`);
     const resp: GetPokemonResult = await apiResponse.json();
+    
     const statsAndEvYield = this.buildStatsAndEvYield(resp.stats);
+    
     return {
-      id: resp.id,
       name: capitalizeFirstLetterOfString(resp.name),
       spriteUrl: resp.sprites.other['official-artwork'].front_default,
       shinySpriteUrl: resp.sprites.other['official-artwork'].front_shiny,
@@ -136,9 +113,38 @@ export class PokeApiServiceClient {
       stats: statsAndEvYield.stats,
       evYield: statsAndEvYield.evYield,
       cry: resp.cries.latest,
+      altForms: resp.forms.length <= 1 ? [] : resp.forms.map(form => form.name),
       height: resp.height / 10, // height from API is in decimeters, convert to m
       weight: resp.weight / 10 // weight from API is in hectograms, convert to kg
     };
+  }
+
+  async getPokemonSpeciesById(id: number): Promise<PokemonSpecies> {
+    const apiResponse = await fetch(this.baseUrl + `pokemon-species/${id}`);
+    const resp: GetSpeciesResponse = await apiResponse.json();
+    return {
+      id,
+      eggGroups: resp.egg_groups.map((e) => e.name) ?? [],
+      evolvesFrom: resp.evolves_from_species?.name,
+      flavorText: this.findFirstEnglishFlavorText(resp.flavor_text_entries),
+      genus: this.findFirstEnglishGenus(resp.genera),
+      genderRate: (resp.gender_rate / 8) * 100, // API returns gender rate as a value out of 8
+      growthRate: resp.growth_rate.name,
+      captureRate: resp.capture_rate,
+      varieties: resp.varieties.length <= 1 ? [] : resp.varieties.map((variety) => variety.pokemon.name),
+      eggCycles: resp.hatch_counter,
+      baseFriendship: resp.base_happiness
+    };
+  }
+
+  async getPokemonForm(form: string): Promise<Partial<PokemonDetails>> {
+    const apiResponse = await fetch(this.baseUrl + `pokemon-form/${form}`);
+    const resp: GetFormResult = await apiResponse.json();
+    return {
+      types: resp.types.map((t) => t.type.name as Type) ?? [],
+      spriteUrl: resp.sprites.front_default,
+      shinySpriteUrl: resp.sprites.front_shiny, 
+    }
   }
 
   private buildStatsAndEvYield(stats: Stat[]): {
@@ -154,23 +160,6 @@ export class PokeApiServiceClient {
     return {
       stats: finalStats,
       evYield: finalEvYield
-    };
-  }
-
-  private async getPokemonSpeciesByName(name: string): Promise<GetSpeciesDetails> {
-    const apiResponse = await fetch(this.baseUrl + `pokemon-species/${name}`);
-    const resp: GetSpeciesResponse = await apiResponse.json();
-    return {
-      eggGroups: resp.egg_groups.map((e) => e.name) ?? [],
-      evolvesFrom: resp.evolves_from_species?.name,
-      flavorText: this.findFirstEnglishFlavorText(resp.flavor_text_entries),
-      genus: this.findFirstEnglishGenus(resp.genera),
-      genderRate: (resp.gender_rate / 8) * 100, // API returns gender rate as a value out of 8
-      growthRate: resp.growth_rate.name,
-      captureRate: resp.capture_rate,
-      forms: resp.varieties.map((variety) => variety.pokemon.name),
-      eggCycles: resp.hatch_counter,
-      baseFriendship: resp.base_happiness
     };
   }
 

@@ -1,29 +1,30 @@
 /* eslint-disable @next/next/no-img-element */
 import ErrorTriangle from '@/app/components/utils/ErrorTriangle';
 import { TYPE_COLOR_MAP } from '@/app/types/Colors';
-import { Pokemon } from '@/app/types/Pokemon';
+import { Pokemon, PokemonForm } from '@/app/types/Pokemon';
 import { calculateTypeWeaknesses } from '@/app/utils/calculateTypeWeaknesses';
 import { Dispatch, SetStateAction, useState } from 'react';
 import ExpandableDivHeader from '../utils/ExpandableDivHeader';
 import LoadingSpinner from '../utils/LoadingSpinner';
-import PokemonDetails from './PokemonDetails/PokemonDetails';
 import TypeEffectiveness from './PokemonTypes/TypeEffectiveness';
 import style from './profile.module.css';
 import ProfileHeader from './ProfileHeader/ProfileHeader';
 import SplashPage from './SplashPage';
 import StatsTable from './StatsTable/StatsTable';
+import PokemonDetails from './PokemonDetails/PokemonDetails';
 
 interface Props {
   pokemon: Pokemon | undefined;
   loading: boolean;
   error: boolean;
-  currentForm: string | undefined;
   shiny: boolean;
   setShiny: Dispatch<SetStateAction<boolean>>;
-  setForm: Dispatch<SetStateAction<string | undefined>>;
+  formIdx: number;
+  setFormIdx: Dispatch<SetStateAction<number>>;
+  setForm: Dispatch<SetStateAction<PokemonForm | undefined>>;
 }
 
-export default function Profile({ pokemon, loading, error, currentForm, setForm, shiny, setShiny }: Props) {
+export default function Profile({ pokemon, loading, error, formIdx, setFormIdx, setForm, shiny, setShiny }: Props) {
   const [isExpanded, setIsExpanded] = useState(true);
 
   let typeColor: string | undefined;
@@ -50,10 +51,10 @@ export default function Profile({ pokemon, loading, error, currentForm, setForm,
           {/* Profile Header */}
           <ProfileHeader
             pokemon={pokemon}
-            typeColor={typeColor}
             shiny={shiny}
             setShiny={setShiny}
-            currentForm={currentForm}
+            formIdx={formIdx}
+            setFormIdx={setFormIdx}
             setForm={setForm}
           />
 

@@ -3,29 +3,44 @@ export interface PokemonMetadata {
   name: string;
 }
 
-export interface Pokemon {
+export interface PokemonSpecies {
   id: number;
+  eggGroups: string[];
+  genderRate: number;
+  growthRate: string;
+  captureRate: number;
+  varieties: string[];
+  eggCycles: number;
+  baseFriendship: number;
+  evolvesFrom: string | undefined;
+  flavorText: string | undefined;
+  genus: string | undefined;
+}
+
+export interface PokemonDetails {
   name: string;
   abilities: string[];
   types: Type[];
   spriteUrl: string;
   shinySpriteUrl: string;
-  eggGroups: string[];
   stats: Stats;
   height: number;
   weight: number;
-  genderRate: number;
-  growthRate: string;
-  captureRate: number;
-  forms: string[];
-  eggCycles: number;
-  baseFriendship: number;
   evYield: Stats;
   cry: string;
-  genus?: string;
-  evolvesFrom?: string;
-  flavorText?: string;
-  typeIconUrls?: string[];
+  altForms: string[];
+  typeIconUrls?: string[]; // urls of the type icons we should use rather than the in-house type icons
+}
+
+export interface Pokemon extends PokemonDetails, PokemonSpecies {
+  forms: PokemonForm[]
+}
+
+// TODO: comment
+export interface PokemonForm {
+  id: number;
+  name: string;
+  type: 'form' | 'variety';
 }
 
 export interface Stats {

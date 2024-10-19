@@ -12,19 +12,31 @@ export interface GetPokemonResult {
   stats: Stat[];
   height: number;
   weight: number;
+  forms: {
+    name: string;
+    url: string;
+  }[];
   cries: {
     latest: string; // cry url
   }
+}
+
+export interface GetFormResult {
+  sprites: {
+    front_default: string; // url to sprite
+    front_shiny: string;
+  }
+  types: Type[];
 }
 
 export interface GetSpeciesResponse {
   id: number;
   egg_groups: EggGroup[];
   flavor_text_entries: FlavorTextEntry[];
-  evolves_from_species?: {
+  evolves_from_species: {
     name: string;
     url: string;
-  };
+  } | null;
   genera: Genera[];
   gender_rate: number;
   growth_rate: {

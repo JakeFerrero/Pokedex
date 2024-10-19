@@ -9,8 +9,8 @@ import SearchFilterBox from './SearchFilterBox';
 interface Props {
   pokemon: PokemonMetadata[];
   loading: boolean;
-  selectedPokemon: string | undefined;
-  setSelectedPokemon: Dispatch<SetStateAction<string | undefined>>;
+  selectedPokemonId: number | undefined;
+  setSelectedPokemonId: Dispatch<SetStateAction<number | undefined>>;
   searchValue: string;
   setSearchValue: Dispatch<SetStateAction<string>>;
   error: boolean;
@@ -19,8 +19,8 @@ interface Props {
 export default function Directory({
   pokemon,
   loading,
-  selectedPokemon,
-  setSelectedPokemon,
+  selectedPokemonId,
+  setSelectedPokemonId,
   searchValue,
   setSearchValue,
   error
@@ -40,8 +40,8 @@ export default function Directory({
       ) : (
         <PokemonList
           pokemon={pokemon}
-          setSelectedPokemon={setSelectedPokemon}
-          selectedPokemon={selectedPokemon}
+          setSelectedPokemonId={setSelectedPokemonId}
+          selectedPokemonId={selectedPokemonId}
           searchTerm={searchValue}
           loading={loading}
         />

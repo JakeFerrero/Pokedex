@@ -1,4 +1,4 @@
-import { Pokemon } from '@/app/types/Pokemon';
+import { Pokemon, PokemonForm } from '@/app/types/Pokemon';
 import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
 import { Dispatch, SetStateAction, useState } from 'react';
 import avatar from '../../../../../public/avatar.png';
@@ -11,12 +11,12 @@ interface Props {
   pokemon: Pokemon;
   shiny: boolean;
   setShiny: Dispatch<SetStateAction<boolean>>;
-  currentForm: string | undefined;
-  setForm: Dispatch<SetStateAction<string | undefined>>;
-  typeColor?: string;
+  setForm: Dispatch<SetStateAction<PokemonForm | undefined>>;
+  formIdx: number;
+  setFormIdx: Dispatch<SetStateAction<number>>;
 }
 
-export default function ProfileHeader({ pokemon, shiny, setShiny, typeColor, currentForm, setForm }: Props) {
+export default function ProfileHeader({ pokemon, shiny, setShiny, formIdx, setFormIdx, setForm }: Props) {
   const [playing, setPlaying] = useState(false);
   const cry = new Audio(pokemon.cry);
   const playAudio = () => {
@@ -88,10 +88,9 @@ export default function ProfileHeader({ pokemon, shiny, setShiny, typeColor, cur
           <HeaderButton
             label={'Form'}
             onClick={() => {
-              // Poke API guarantees that there will always be one form,
-              // the default form, which is just the pokemon's name
-              let newFormIndex = pokemon.forms.indexOf(currentForm ?? pokemon.name.toLowerCase()) + 1;
+              let newFormIndex = formIdx + 1;
               if (newFormIndex > pokemon.forms.length - 1) newFormIndex = 0;
+              setFormIdx(newFormIndex);
               setForm(pokemon.forms[newFormIndex]);
             }}
             disabled={pokemon.forms.length <= 1 ? true : false}

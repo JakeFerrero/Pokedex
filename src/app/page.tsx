@@ -4,7 +4,7 @@ import Directory from './components/directory/Directory';
 import Profile from './components/profile/Profile';
 import WebsiteHeader from './components/utils/WebsiteHeader';
 import style from './page.module.css';
-import { Pokemon, PokemonMetadata } from './types/Pokemon';
+import { Pokemon, PokemonDetails, PokemonForm, PokemonMetadata, PokemonSpecies } from './types/Pokemon';
 import { Region } from './types/Regions';
 import { PokeApiServiceClient } from './utils/PokeApiServiceClient';
 import { CachedPokemon, PokemonCache } from './utils/PokemonCache';
@@ -20,11 +20,15 @@ const client = new PokeApiServiceClient(cache);
 export default function Home() {
   // pokemon, selected pokemon and their details
   const [pokemon, setPokemon] = useState<PokemonMetadata[]>([]);
-  const [selectedPokemon, setSelectedPokemon] = useState<string | undefined>();
-  const [selectedPokemonDeatils, setSelectedPokemonDetails] = useState<Pokemon | undefined>();
+  const [selectedPokemonId, setSelectedPokemonId] = useState<number | undefined>();
+
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | undefined>();
+  const [selectedPokemonDetails, setSelectedPokemonDetails] = useState<PokemonDetails | undefined>();
+  const [selectedPokemonSpecies, setSelectedPokemonSpecies] = useState<PokemonSpecies | undefined>();
 
   // form of pokemon
-  const [pokemonForm, setPokemonForm] = useState<string | undefined>();
+  const [formIdx, setFormIdx] = useState<number>(0);
+  const [pokemonForm, setPokemonForm] = useState<PokemonForm | undefined>();
   const [shiny, setShiny] = useState<boolean>(false);
 
   // region
@@ -46,7 +50,7 @@ export default function Home() {
       setLoading(true);
       let pokemon: PokemonMetadata[] = [];
       try {
-        pokemon = await client.getPokemonByRegion(region);
+        pokemon = await client.getPokemonListByRegion(region);
         setErrorFetchingPokemonNames(false);
       } catch (error) {
         console.error('Could not fetch list of Pokemon.', error);
@@ -57,55 +61,53 @@ export default function Home() {
     })();
   }, [region]);
 
+  // species
   useEffect(() => {
-    // only make the API call once a pokemon has been selected
-    selectedPokemon &&
+    selectedPokemonId &&
       (async () => {
-        // when the selected pokemon changes, reset details, form, and shininess
-        setSelectedPokemonDetails(undefined);
         setPokemonForm(undefined);
+        setFormIdx(0);
         setShiny(false);
         setProfileLoading(true);
-        let details: Pokemon | undefined;
+
+        let species: PokemonSpecies | undefined;
         try {
-          details = await client.getPokemonByName(selectedPokemon);
-          setErrorFetchingPokemonDetails(false);
+          species = await client.getPokemonSpeciesById(selectedPokemonId);
         } catch (error) {
-          console.error('Could not fetch information for selected Pokemon.', error);
+          console.error('Could not fetch species data for selected Pokemon.', error);
           setErrorFetchingPokemonDetails(true);
         }
 
-        let typeIconUrls: string[] = [];
-        if (details) {
-          for (const type of details.types) {
-            try {
-              const typeUrl = await client.getTypeIconUrl(type);
-              typeIconUrls.push(typeUrl);
-            } catch (error) {
-              console.warn('Could not fetch type icon URL for selected Pokemon.', error);
-            }
-          }
-          if (typeIconUrls.length) details.typeIconUrls = typeIconUrls;
-        }
-
-        setSelectedPokemonDetails(details);
+        setSelectedPokemonSpecies(species);
         setProfileLoading(false);
+        console.log('species done: ', selectedPokemonSpecies);
       })();
-  }, [selectedPokemon]);
+  }, [selectedPokemonId]);
 
-  // form change
+  // details
   useEffect(() => {
-    selectedPokemon &&
+    selectedPokemonId &&
       (async () => {
-        // when the pokemon form changes, reset shininess
         setShiny(false);
         setProfileLoading(true);
-        let details: Pokemon | undefined;
+
+        let details: PokemonDetails | undefined;
         try {
-          details = await client.getPokemonByName(selectedPokemon, pokemonForm);
-          setErrorFetchingPokemonDetails(false);
+          const id =
+            pokemonForm?.type === 'variety' && pokemonForm.name !== 'default'
+              ? pokemonForm.name
+              : selectedPokemonId.toString();
+          details = await client.getPokemonDetailsByNameOrId(id);
+
+          if (pokemonForm?.type === 'form') {
+            const formDetails = await client.getPokemonForm(pokemonForm.name);
+            details = {
+              ...details,
+              ...formDetails
+            };
+          }
         } catch (error) {
-          console.error('Could not fetch information for selected Pokemon.', error);
+          console.error('Could not fetch details for selected Pokemon.', error);
           setErrorFetchingPokemonDetails(true);
         }
 
@@ -125,7 +127,114 @@ export default function Home() {
         setSelectedPokemonDetails(details);
         setProfileLoading(false);
       })();
-  }, [pokemonForm]);
+  }, [selectedPokemonId, pokemonForm]);
+
+  useEffect(() => {
+    function buildPokemonFormsArray(id: number, varieties: string[], altForms: string[]): PokemonForm[] {
+      const forms: PokemonForm[] = [{ type: 'variety', id, name: 'default' }];
+      varieties.forEach((variety) => {
+        forms.push({
+          id,
+          type: 'variety',
+          name: variety
+        });
+      });
+      altForms.forEach((form) => {
+        forms.push({
+          id,
+          type: 'form',
+          name: form
+        });
+      });
+      return forms;
+    }
+
+    selectedPokemonDetails &&
+      selectedPokemonSpecies &&
+      (() => {
+        const pokemon: Pokemon = {
+          ...selectedPokemonSpecies,
+          ...selectedPokemonDetails,
+          forms: buildPokemonFormsArray(
+            selectedPokemonSpecies.id,
+            selectedPokemonSpecies.varieties,
+            selectedPokemonDetails.altForms
+          )
+        };
+        setSelectedPokemon(pokemon);
+        console.log('selected pokemon is: ', selectedPokemon);
+      })();
+  }, [selectedPokemonDetails, selectedPokemonSpecies]);
+
+  // useEffect(() => {
+  //   // only make the API call once a pokemon has been selected
+  //   selectedPokemon &&
+  //     (async () => {
+  //       // when the selected pokemon changes, reset details, form, and shininess
+  //       setSelectedPokemonDetails(undefined);
+  //       setPokemonForm(undefined);
+  //       setShiny(false);
+  //       setProfileLoading(true);
+  //       let details: Pokemon | undefined;
+  //       try {
+  //         details = await client.getPokemonByName(selectedPokemon);
+  //         setErrorFetchingPokemonDetails(false);
+  //       } catch (error) {
+  //         console.error('Could not fetch information for selected Pokemon.', error);
+  //         setErrorFetchingPokemonDetails(true);
+  //       }
+
+  //       let typeIconUrls: string[] = [];
+  //       if (details) {
+  //         for (const type of details.types) {
+  //           try {
+  //             const typeUrl = await client.getTypeIconUrl(type);
+  //             typeIconUrls.push(typeUrl);
+  //           } catch (error) {
+  //             console.warn('Could not fetch type icon URL for selected Pokemon.', error);
+  //           }
+  //         }
+  //         if (typeIconUrls.length) details.typeIconUrls = typeIconUrls;
+  //       }
+
+  //       setSelectedPokemonDetails(details);
+  //       setProfileLoading(false);
+  //     })();
+  // }, [selectedPokemon]);
+
+  // // form change
+  // useEffect(() => {
+  //   selectedPokemon &&
+  //     (async () => {
+  //       // when the pokemon form changes, reset shininess
+  //       setShiny(false);
+  //       setProfileLoading(true);
+  //       let details: Pokemon | undefined;
+  //       try {
+  //         details = await client.getPokemonByName(selectedPokemon, pokemonForm);
+  //         setErrorFetchingPokemonDetails(false);
+  //       } catch (error) {
+  //         console.error('Could not fetch information for selected Pokemon.', error);
+  //         setErrorFetchingPokemonDetails(true);
+  //       }
+
+  //       let typeIconUrls: string[] = [];
+  //       if (details) {
+  //         for (const type of details.types) {
+  //           try {
+  //             const typeUrl = await client.getTypeIconUrl(type);
+  //             typeIconUrls.push(typeUrl);
+  //           } catch (error) {
+  //             console.warn('Could not fetch type icon URL for selected Pokemon.', error);
+  //           }
+  //         }
+  //         if (typeIconUrls.length) details.typeIconUrls = typeIconUrls;
+  //       }
+
+  //       setSelectedPokemonDetails(details);
+  //       setProfileLoading(false);
+  //     })();
+  // }, [pokemonForm]);
   // TODO: React hook useEffect has a missingDependancy: selectedPokemon
 
   return (
@@ -135,17 +244,18 @@ export default function Home() {
         <Directory
           pokemon={pokemon}
           loading={loading}
-          selectedPokemon={selectedPokemon}
-          setSelectedPokemon={setSelectedPokemon}
+          selectedPokemonId={selectedPokemonId}
+          setSelectedPokemonId={setSelectedPokemonId}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
           error={errorFetchingPokemonNames}
         />
         <Profile
-          pokemon={selectedPokemonDeatils}
+          pokemon={selectedPokemon}
           loading={profileLoading}
           error={errorFetchingPokemonDetails}
-          currentForm={pokemonForm}
+          formIdx={formIdx}
+          setFormIdx={setFormIdx}
           setForm={setPokemonForm}
           shiny={shiny}
           setShiny={setShiny}
