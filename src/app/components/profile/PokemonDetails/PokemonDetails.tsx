@@ -1,11 +1,7 @@
 import { Pokemon } from '@/app/types/Pokemon';
 import { metersToFeetInches } from '@/app/utils/metersToFeetInches';
-import { sanitizeStatName } from '@/app/utils/stringSanitization';
-import {
-  capitalizeFirstLetterOfString,
-  sanitizeAbilityName,
-  sanitizeEggGroup
-} from '../../../utils/stringSanitization';
+import { sanitizePokemonName, sanitizeStatName } from '@/app/utils/stringSanitization';
+import { sanitizeAbilityName, sanitizeEggGroup } from '../../../utils/stringSanitization';
 import ExperienceChart from './ExperienceChart';
 import GenderChart from './GenderChart';
 import style from './pokemonDetails.module.css';
@@ -84,7 +80,7 @@ export default function PokemonDetails({ pokemon, typeColor }: Props) {
           {pokemon.evolvesFrom ? (
             <p>
               <b>{`Evolves From: `}</b>
-              {capitalizeFirstLetterOfString(pokemon.evolvesFrom)}
+              {sanitizePokemonName(pokemon.evolvesFrom)}
             </p>
           ) : undefined}
         </div>

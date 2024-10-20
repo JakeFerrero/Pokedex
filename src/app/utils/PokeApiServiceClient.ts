@@ -10,7 +10,6 @@ import {
 import { Pokemon, PokemonMetadata, Stats, Type } from '../types/Pokemon';
 import { Region } from '../types/Regions';
 import { PokemonCache } from './PokemonCache';
-import { capitalizeFirstLetterOfString } from './stringSanitization';
 
 const REGION_POKEMON_COUNT: Record<Region, number> = {
   Kanto: 151,
@@ -128,7 +127,7 @@ export class PokeApiServiceClient {
     const statsAndEvYield = this.buildStatsAndEvYield(resp.stats);
     return {
       id: resp.id,
-      name: capitalizeFirstLetterOfString(resp.name),
+      name: resp.name,
       spriteUrl: resp.sprites.other['official-artwork'].front_default,
       shinySpriteUrl: resp.sprites.other['official-artwork'].front_shiny,
       abilities: resp.abilities.map((a) => a.ability.name) ?? [],

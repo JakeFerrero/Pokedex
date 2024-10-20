@@ -1,6 +1,6 @@
 'use client';
 import { PokemonMetadata } from '@/app/types/Pokemon';
-import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
+import { sanitizePokemonName } from '@/app/utils/stringSanitization';
 import { Dispatch, SetStateAction } from 'react';
 import style from './directory.module.css';
 import NoPokemonFound from './NoPokemonFound';
@@ -54,8 +54,7 @@ export default function PokemonList({ pokemon, setSelectedPokemon, selectedPokem
                 }
               >
                 No. {mon.id + ': '}
-                {/* TODO: Need to sanitize some pokemon names from the API - i.e. nidoran-m */}
-                {highlightMatchedText(capitalizeFirstLetterOfString(mon.name), searchTerm)}
+                {highlightMatchedText(sanitizePokemonName(mon.name, mon.id), searchTerm)}
               </button>
             );
           })

@@ -1,11 +1,11 @@
+import { TYPE_COLOR_MAP } from '@/app/types/Colors';
 import { Pokemon } from '@/app/types/Pokemon';
-import { capitalizeFirstLetterOfString } from '@/app/utils/stringSanitization';
+import { sanitizePokemonName, sanitizePokemonNumber } from '@/app/utils/stringSanitization';
 import { Dispatch, SetStateAction, useState } from 'react';
 import avatar from '../../../../../public/avatar.png';
 import TypePill from '../PokemonTypes/TypePill';
 import HeaderButton from './HeaderButton';
 import style from './profileHeader.module.css';
-import { TYPE_COLOR_MAP } from '@/app/types/Colors';
 
 interface Props {
   pokemon: Pokemon;
@@ -62,15 +62,16 @@ export default function ProfileHeader({ pokemon, shiny, setShiny, typeColor, cur
           style={{
             // set glowing border the color of pokemon's types
             border: 'double 3px transparent',
-            backgroundImage: `linear-gradient(to bottom right, #e5f9ff, white, #e5f9ff), linear-gradient(to bottom right, ${TYPE_COLOR_MAP[pokemon.types[0]]}, ${pokemon.types.length > 1 ? TYPE_COLOR_MAP[pokemon.types[1]] : TYPE_COLOR_MAP[pokemon.types[0]]})`,
+            backgroundImage: `linear-gradient(to bottom right, #e5f9ff, white, #e5f9ff), linear-gradient(to bottom right, ${
+              TYPE_COLOR_MAP[pokemon.types[0]]
+            }, ${pokemon.types.length > 1 ? TYPE_COLOR_MAP[pokemon.types[1]] : TYPE_COLOR_MAP[pokemon.types[0]]})`,
             backgroundOrigin: 'border-box',
             backgroundClip: 'padding-box, border-box'
           }}
         >
-          {/* TODO: number is wrong with different forms, also make function to create correct num zeroes */}
-          <h5 style={{ color: 'grey', margin: '0px' }}>#000{pokemon.id}</h5>
+          <h5 style={{ color: 'grey', margin: '0px' }}>#{sanitizePokemonNumber(pokemon.id)}</h5>
           <div className={style.headerNameContainer}>
-            <h2>{capitalizeFirstLetterOfString(pokemon.name)}</h2>
+            <h2>{sanitizePokemonName(pokemon.name, pokemon.id)}</h2>
             {shiny && <div className={style.star}></div>}
           </div>
           <div style={{ display: 'flex' }}>
