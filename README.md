@@ -1,4 +1,6 @@
-# Pokedex
+# Pokedex [ON HOLD]
+<b>Project currently on hold.</b>
+
 A web app that simulates the functionality of a Pokedex. Built using NextJS and Typescript.
 
 ## Setup
